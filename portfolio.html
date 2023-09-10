@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Portfolio">
+    <meta name="keywords" content="Game Design, Portfolio, MSU">
+    <meta name="author" content="Caleb Flosky">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Portfolio</title>
+    
+    <!-- Link to the external CSS file (portfolio-style.css) -->
+    <link rel="stylesheet" type="text/css" href="CSS/portfolio-style.css">
+    
+    <style>
+        /* Add CSS styles for the resume image */
+        img.resume-image {
+            display: block;
+            margin: 35px auto;
+            max-width: 50%; /* Ensure the image doesn't exceed its container */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+            border: 2px solid #fff; /* Add a white border around the image */
+            filter: brightness(75%); /* Reduce image brightness */
+            animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+                transform: translateY(10%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Add CSS styles to fade in other content sections */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        /* Delay the fade-in animation for each content section */
+        .section-1 .fade-in {
+            animation-delay: 0.2s; /* Delay for the first section */
+        }
+
+        .section-2 .fade-in {
+            animation-delay: 0.4s; /* Delay for the second section */
+        }
+
+        .section-3 .fade-in {
+            animation-delay: 0.6s; /* Delay for the third section */
+        }
+
+        .section-4 .fade-in {
+            animation-delay: 0.8s; /* Delay for the fourth section */
+        }
+
+        .section-5 .fade-in {
+            animation-delay: 1.0s; /* Delay for the fifth section */
+        }
+
+        /* Add styles for links */
+        .image-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="portfolio_text">
+        <span style="--delay: 0s;">P</span>
+        <span style="--delay: 0.125s;">o</span>
+        <span style="--delay: 0.250s;">r</span>
+        <span style="--delay: 0.375s;">t</span>
+        <span style="--delay: 0.500s;">f</span>
+        <span style="--delay: 0.625s;">o</span>
+        <span style="--delay: 0.750s;">l</span>
+        <span style="--delay: 0.875s;">i</span>
+        <span style="--delay: 1s;">o</span>
+    </h1>
+    
+    <a href="index.html" target="_self" title="Home" class="link portfolio">
+        Home
+    </a>
+    
+    <!-- First section: Sneak Easy -->
+    <a href="https://spartasoftstudio.itch.io/sneakeasy" class="image-link" target="_blank" title="Sneak Easy's Itch.io">
+        <div class="image-container section-1 fade-in">
+            <div class="image-content">
+                <h2 class="fade-in">Sneak Easy</h2>
+                <p class="date fade-in">Released: April 25th, 2023</p>
+                <div class="image-wrapper">
+                    <img id="sneak-easy-image" alt="Image 1" class="fade-in">
+                </div>
+                <p class="role fade-in">My Role: Player Programming & QTE Programming</p>
+            </div>
+            <div class="image-info fade-in">
+                <p>"Sneak Easy" is a stealth platforming game that I helped develop as part of the programming team at Spartasoft Studio during Spring 2023. This captivating game emphasizes responsive character movement and Quick Time Events (QTEs), offering players an immersive experience as they navigate shadowy levels, outwitting adversaries with their agility and wits. My primary contributions focused on refining the character's movement and implementing exciting QTE moments, making "Sneak Easy" a thrilling adventure to move around in!</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Second section: Battle Blobs -->
+    <a href="https://aidanbieber.itch.io/battle-blobs" class="image-link" target="_blank" title="Battle Blobs's Itch.io">
+        <div class="image-container section-2 fade-in">
+            <div class="image-content">
+                <h2 class="fade-in">Battle Blobs</h2>
+                <p class="date fade-in">Released: March 26th, 2023</p>
+                <div class="image-wrapper">
+                    <img id="battle-blobs-image" alt="Image 1" class="fade-in">
+                </div>
+                <p class="role fade-in">My Role: Player Programming & Painting Programming</p>
+            </div>
+            <div class="image-info fade-in">
+                <p>Battle Blobs is a 2D fighting game created during Spartasoft Studio's March 2023 Game Jam in which the theme was: "MESSY". I was part of a six-person team, contributing as a programmer responsible for some character movement and the paint mechanic. In this fast-paced title, players engage in battle with the objective of covering the arena in paint. The player who claims the most paint-covered territory is winner. It served as an exciting test of our skills and creativity, as we aimed to see how far we could push the boundaries of game development within a mere 48 hours.</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Third section: Tomb for Two -->
+    <a href="https://spartasoftstudio.itch.io/tomb-for-two" class="image-link" target="_blank" title="Tomb for Two's Itch.io">
+        <div class="image-container section-3 fade-in">
+            <div class="image-content">
+                <h2 class="fade-in">Tomb for Two</h2>
+                <p class="date fade-in">Released: December 8th, 2022</p>
+                <div class="image-wrapper">
+                    <img id="tomb-for-two-image" alt="Image 1" class="fade-in">
+                </div>
+                <p class="role fade-in">My Role: Quality Assurance</p>
+            </div>
+            <div class="image-info fade-in">
+                <p>Tomb for Two is a local 2-player dungeon crawler created during Spartasoft Studio's Fall 2022 semester. In this cooperative game, players must work together to escape a pyramid by defeating enemies and solving puzzles. I contributed to the project as part of the Quality Assurance team, where my responsibilities included bug finding, drawing inspiration from similar games, and testing builds. It's an engaging adventure that challenges players' teamwork and problem-solving abilities, offering an immersive experience within the confines of a pyramid.</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Fourth section: Share and Reach -->
+    <a href="https://caleb-flosky.itch.io/share-and-reach" class="image-link" target="_blank" title="Share and Reach's Itch.io">
+        <div class="image-container section-4 fade-in">
+            <div class="image-content">
+                <h2 class="fade-in">Share and Reach</h2>
+                <p class="date fade-in">Released: June 8th, 2021</p>
+                <div class="image-wrapper">
+                    <img id="share-and-reach-image" alt="Image 1" class="fade-in">
+                </div>
+                <p class="role fade-in">My Role: Sole Developer: Programming, Design, Art, Audio</p>
+            </div>
+            <div class="image-info fade-in">
+                <p>Share and Reach is a puzzle game designed for 1-2 players. In this game, you control two square-headed characters with distinct properties, working together to solve a variety of puzzles. Created as my final project in my C# and Game Design Year 2 course in 2021, I took on the role of the sole developer, responsible for programming, art, level design, and everything except the background music. Share and Reach delivers a puzzle-solving experience with its challenging gameplay.</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Fifth section: Worlds Apart -->
+    <a href="https://caleb-flosky.itch.io/worlds-apart" class="image-link" target="_blank" title="Worlds Apart's Itch.io">
+        <div class="image-container section-5 fade-in">
+            <div class="image-content">
+                <h2 class="fade-in">Worlds Apart</h2>
+                <p class="date fade-in">Released: November 20, 2022</p>
+                <div class="image-wrapper">
+                    <img id="worlds-apart-image" alt="Image 1" class="fade-in">
+                </div>
+                <p class="role fade-in">My Role: Animation, Character, Environmental Programmer</p>
+            </div>
+            <div class="image-info fade-in">
+                <p>"Worlds Apart" emerged from Spartasoft's November 2022 Game Jam, featuring themes like "Hello World" and bonus themes such as "Alchemy, Arcane, Potions." This 2D pixel game puts you in control of a stranded bot, crash-landed on a mysterious terrain. Your objective: establish your computer and uncover the hidden power source. Gameplay involves resource collection and crafting at a workbench. My role as a programmer centered on crafting mechanics, animations, character controls, and environmental elements.</p>
+            </div>
+        </div>
+    </a>
+
+    <script>
+        // Define arrays of image sources for each game
+        var sneakEasyImages = ['images/Sneak Easy/img1.png', 'images/Sneak Easy/img2.png', 'images/Sneak Easy/img3.png'];
+        var battleBlobsImages = ['images/Battle Blobs/img1.png', 'images/Battle Blobs/img2.png', 'images/Battle Blobs/img3.png'];
+        var tombForTwoImages = ['images/Tomb For Two/img1.png', 'images/Tomb For Two/img2.png', 'images/Tomb For Two/img3.png'];
+        var shareAndReachImages = ['images/Share and Reach/img1.png', 'images/Share and Reach/img2.png', 'images/Share and Reach/img3.png'];
+        var worldsApartImages = ['images/Worlds Apart/img1.png', 'images/Worlds Apart/img2.png', 'images/Worlds Apart/img3.png'];
+
+        // Function to set a random image source for a given game
+        function setRandomImage(gameImages, imageElementId) {
+            var randomIndex = Math.floor(Math.random() * gameImages.length);
+            var imageElement = document.getElementById(imageElementId);
+            imageElement.src = gameImages[randomIndex];
+        }
+
+        // Set random images for each game
+        setRandomImage(sneakEasyImages, 'sneak-easy-image');
+        setRandomImage(battleBlobsImages, 'battle-blobs-image');
+        setRandomImage(tombForTwoImages, 'tomb-for-two-image');
+        setRandomImage(shareAndReachImages, 'share-and-reach-image');
+        setRandomImage(worldsApartImages, 'worlds-apart-image');
+    </script>
+</body>
+</html>
