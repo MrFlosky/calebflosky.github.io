@@ -39,6 +39,18 @@
         .page-extension {
             height: 100vh; /* Adjust the height as needed */
         }
+
+        /* Media queries for typical device breakpoints */
+        @media screen and (max-width: 576px) {
+            /* Adjust styles for devices with a maximum width of 576px (e.g., phones) */
+            img.resume-image {
+                max-width: 100%; /* Make the image occupy the full width of the viewport */
+            }
+
+            .page-extension {
+                height: 200vh; /* Increase the height for smaller screens */
+            }
+        }
     </style>
 </head>
 <body>
