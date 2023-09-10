@@ -1,0 +1,208 @@
+/* styles.css */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 600px;
+    min-width: 1000px;
+    margin: 30px 0;
+    background: linear-gradient(to bottom, #2E2E2E, #000000);
+    position: relative;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin-top: 0;
+}
+
+.link {
+    padding: 0 20px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 30px;
+    margin: 0 20px;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+#portfolio_text {
+    color: transparent;
+    outline-color: #00A859;
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 40px;
+    margin: 20px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+#portfolio_text::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, #FFFFFF 50%);
+    background-size: 200% 100%;
+    background-position: left bottom;
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+}
+
+#portfolio_text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, transparent 0%, #FFFFFF 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+}
+
+#portfolio_text:hover::before {
+    background-position: right bottom;
+    opacity: 1;
+}
+
+#portfolio_text:hover::after {
+    background-position: left bottom;
+    opacity: 1;
+}
+
+/* Keyframes animation to reveal each letter by sliding up and changing color */
+@keyframes slideUpAndFadeIn {
+    0% {
+        transform: translateY(100%);
+        color: transparent;
+    }
+    100% {
+        transform: translateY(0);
+        color: #FFFFFF;
+    }
+}
+
+/* Apply the sliding and fading animation to each letter */
+#portfolio_text span {
+    display: inline-block;
+    animation: slideUpAndFadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: var(--delay);
+    text-decoration: none;
+}
+
+@keyframes animateUnderline {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+#portfolio_text::before {
+    animation: animateUnderline 1.75s ease-out forwards;
+    transform: translateX(-50%);
+}
+
+#portfolio_text::after {
+    animation: animateUnderline 1.75s ease-out forwards;
+    transform: translateX(50%);
+}
+
+.image-container {
+    display: flex;
+    align-items: flex-start;
+    margin: 80px 0;
+}
+
+.image-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 450px;
+    min-height: 400px;
+    margin-right: 30px;
+}
+
+.image-content h2 {
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.image-wrapper {
+    width: 100%;
+    min-height: 250px;
+    overflow: hidden;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid #fff;
+    filter: brightness(75%);
+}
+
+.image-info {
+    text-align: left;
+    margin-top: 65px;
+}
+
+.image-info p {
+    color: #FFFFFF;
+    font-size: 19px;
+    line-height: 1.4;
+    max-width: 550px;
+    margin-top: 0;
+}
+
+.date {
+    color: #00A859;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.role {
+    color: #FFFFFF;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Add a CSS class for the fade-in animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(10%);
+    animation: fade-in-animation 1s ease-in-out forwards;
+}
+
+@keyframes fade-in-animation {
+    0% {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
