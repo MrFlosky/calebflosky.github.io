@@ -6,8 +6,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 75vh;
-    margin: 20px 0;
-    background: linear-gradient(to bottom, #2E2E2E, #000000); /* Space grey to black gradient background */
+    background-color: #00A859; /* MSU green */
     position: relative;
 }
 
@@ -16,6 +15,20 @@ body {
     justify-content: center;
     max-width: 800px;
     margin-top: 20px;
+}
+
+.full-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 1200px;
+    background: linear-gradient(to bottom, #2E2E2E, #000000); /* Space grey to black gradient background */
+    padding-left: 10px; /* Add some padding */
+    padding-right: 10px; /* Add some padding */
+
+    margin-left: 10px 0; /* Add some padding */
+    margin-right: 10px 0; /* Add some padding */
 }
 
 .link {

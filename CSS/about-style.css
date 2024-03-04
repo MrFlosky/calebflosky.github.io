@@ -1,0 +1,133 @@
+/* styles.css */
+
+/*
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 75vh;
+    margin: 20px 0;
+    background: linear-gradient(to bottom, #2E2E2E, #000000);
+    position: relative;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin-top: 0px;
+}
+
+.link {
+    padding: 0 2em;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 30px;
+    margin: 0 1em;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+*/
+
+#about_text {
+    color: transparent;
+    outline-color: #00A859; /* MSU green outline */
+    text-align: center;
+    letter-spacing: 1px;
+    font-size: 40px;
+    margin: 20px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+#about_text::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Start from the left edge */
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, #FFFFFF 50%); /* White underline to the right */
+    background-size: 200% 100%;
+    background-position: left bottom; /* Start from the left */
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+}
+
+#about_text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0; /* Start from the right edge */
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, transparent 0%, #FFFFFF 50%); /* White underline to the left */
+    background-size: 200% 100%;
+    background-position: right bottom; /* Start from the right */
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+}
+
+#about_text:hover::before {
+    background-position: right bottom; /* Move to the right */
+    opacity: 1;
+}
+
+#about_text:hover::after {
+    background-position: left bottom; /* Move to the left */
+    opacity: 1;
+}
+
+/* Keyframes animation to reveal each letter by sliding up and changing color */
+@keyframes slideUpAndFadeIn {
+    0% {
+        transform: translateY(100%);
+        color: transparent;
+    }
+    100% {
+        transform: translateY(0);
+        color: #FFFFFF; /* White text color */
+    }
+}
+
+/* Apply the sliding and fading animation to each letter */
+#about_text span {
+    display: inline-block;
+    animation: slideUpAndFadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: var(--delay); /* Delay the animation based on the delay variable */
+    text-decoration: none;
+}
+
+@keyframes animateUnderline {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+#about_text::before {
+    /* ... (your existing styles) ... */
+    animation: animateUnderline 1.75s ease-out forwards;
+    transform: translateX(-50%); /* Center the underline */
+}
+
+#about_text::after {
+    /* ... (your existing styles) ... */
+    animation: animateUnderline 1.75s ease-out forwards;
+    transform: translateX(50%); /* Center the underline */
+}

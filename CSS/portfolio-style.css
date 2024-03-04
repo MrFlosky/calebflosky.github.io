@@ -1,5 +1,5 @@
 /* styles.css */
-
+/*
 body {
     display: flex;
     flex-direction: column;
@@ -36,6 +36,8 @@ body {
 .right {
     text-align: right;
 }
+
+*/
 
 #portfolio_text {
     color: transparent;
@@ -164,6 +166,19 @@ body {
     filter: brightness(75%);
 }
 
+.about-me-info {
+    text-align: left;
+    margin-top: 40px;
+}
+
+.about-me-info p {
+    color: #FFFFFF;
+    font-size: 24px;
+    line-height: 1.4;
+    max-width: 550px;
+    margin-top: 0;
+}
+
 .image-info {
     text-align: left;
     margin-top: 65px;
@@ -174,6 +189,19 @@ body {
     font-size: 19px;
     line-height: 1.4;
     max-width: 550px;
+    margin-top: 0;
+}
+
+.latest-game-info {
+    text-align: left;
+    margin-top: 25px;
+}
+
+.latest-game-info p {
+    color: #FFFFFF;
+    font-size: 19px;
+    line-height: 1.4;
+    max-width: 750px;
     margin-top: 0;
 }
 
