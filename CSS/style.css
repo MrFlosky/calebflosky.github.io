@@ -14,7 +14,14 @@ body {
     display: flex;
     justify-content: center;
     max-width: 800px;
-    margin-top: 20px;
+    margin-top: 0px;
+}
+
+.itch-io-container {
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin-top: 80px;
 }
 
 .full-container {

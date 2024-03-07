@@ -57,7 +57,7 @@ body {
     left: 0; /* Start from the left edge */
     width: 100%;
     height: 2px;
-    background: linear-gradient(to right, transparent 0%, #FFFFFF 50%); /* White underline to the right */
+    background: linear-gradient(to right, transparent 0%, #FFFFFF 100%); /* White underline to the right */
     background-size: 200% 100%;
     background-position: left bottom; /* Start from the left */
     opacity: 1;
@@ -71,7 +71,7 @@ body {
     right: 0; /* Start from the right edge */
     width: 100%;
     height: 2px;
-    background: linear-gradient(to left, transparent 0%, #FFFFFF 50%); /* White underline to the left */
+    background: linear-gradient(to left, transparent 0%, #FFFFFF 100%); /* White underline to the left */
     background-size: 200% 100%;
     background-position: right bottom; /* Start from the right */
     opacity: 1;
