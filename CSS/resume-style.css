@@ -130,3 +130,13 @@ body {
     animation: animateUnderline 1.75s ease-out forwards;
     transform: translateX(50%); /* Center the underline */
 }
+
+.link-small {
+    padding: 0 2em;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF; /* White text color */
+    font-size: 15px; /* Adjusted font size for smaller text */
+    margin-bottom: 1em;
+}
