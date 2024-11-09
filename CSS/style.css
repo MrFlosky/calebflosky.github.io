@@ -13,15 +13,15 @@ body {
 .container {
     display: flex;
     justify-content: center;
-    max-width: 800px;
-    margin-top: 0px;
+    max-width: 80vw;
+    margin-top: 0;
 }
 
 .itch-io-container {
     display: flex;
     justify-content: center;
-    max-width: 800px;
-    margin-top: 80px;
+    max-width: 7vw;
+    margin-top: 10vh;
 }
 
 .full-container {
@@ -29,13 +29,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 1200px;
+    width: 71vw;
     background: linear-gradient(to bottom, #2E2E2E, #000000); /* Space grey to black gradient background */
-    padding-left: 10px; /* Add some padding */
-    padding-right: 10px; /* Add some padding */
-
-    margin-left: 10px 0; /* Add some padding */
-    margin-right: 10px 0; /* Add some padding */
+    padding-left: 10vw; /* Add some padding */
+    padding-right: 10vw; /* Add some padding */
 }
 
 .link {
@@ -44,7 +41,7 @@ body {
     text-align: center;
     text-decoration: none;
     color: #FFFFFF; /* White text color */
-    font-size: 30px;
+    font-size: 2.2vw;
     margin: 0 1em;
 }
 
@@ -60,9 +57,9 @@ body {
     color: transparent;
     outline-color: #00A859; /* MSU green outline */
     text-align: center;
-    letter-spacing: 5px;
-    font-size: 80px;
-    margin: 100px 0;
+    letter-spacing: 0.5vw;
+    font-size: 7vw;
+    margin: 11vh 0;
     white-space: nowrap;
     overflow: hidden;
     position: relative;
@@ -147,4 +144,109 @@ body {
     /* ... (your existing styles) ... */
     animation: animateUnderline 1.75s ease-out forwards;
     transform: translateX(50%); /* Center the underline */
+}
+
+#itchio-image{
+    height:1vh;
+    width:1vw;
+}
+
+/* Add CSS styles for the resume image */
+img.resume-image {
+    display: block;
+    margin: 35px auto;
+    max-width: 70%; /* Ensure the image doesn't exceed its container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    border: 2px solid #fff; /* Add a white border around the image */
+    filter: brightness(85%); /* Reduce image brightness */
+    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+}
+
+/* Add a margin to the resume text */
+h2#about_text {
+    margin-top: 35vh; /* Adjust this value to your preference */
+}
+
+/* Add a margin to the resume text */
+h3#resume_text {
+    margin-top: 35vh; /* Adjust this value to your preference */
+}
+
+/* Add a margin to the resume text */
+h4#portfolio_text {
+    margin-top: 35vh; /* Adjust this value to your preference */
+}
+
+/* Add a margin to the resume text */
+a#Latest_Project {
+    margin-top: 12vh; /* Adjust this value to your preference */
+    margin-bottom: 4vh;
+}
+
+/* Add CSS styles for the resume image */
+img.image-link {
+    display: block;
+    margin: 35px auto;
+    max-width: 50%; /* Ensure the image doesn't exceed its container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    border: 2px solid #fff; /* Add a white border around the image */
+    filter: brightness(75%); /* Reduce image brightness */
+    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add CSS styles to fade in other content sections */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.myself .fade-in {
+    animation-delay: 0s;
+}
+
+/* Delay the fade-in animation for each content section */
+.section-1 .fade-in {
+    animation-delay: 0.2s; /* Delay for the first section */
+}
+
+.section-2 .fade-in {
+    animation-delay: 0.4s; /* Delay for the second section */
+}
+
+.section-3 .fade-in {
+    animation-delay: 0.6s; /* Delay for the third section */
+}
+
+.section-4 .fade-in {
+    animation-delay: 0.8s; /* Delay for the fourth section */
+}
+
+.section-5 .fade-in {
+    animation-delay: 1.0s; /* Delay for the fifth section */
+}
+
+/* Add styles for links */
+.image-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+
+
+.game-embed{
+    width: 80vw;
+    height: 50vw;
 }

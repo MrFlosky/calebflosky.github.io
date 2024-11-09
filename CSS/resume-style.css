@@ -137,6 +137,6 @@ body {
     text-align: center;
     text-decoration: none;
     color: #FFFFFF; /* White text color */
-    font-size: 15px; /* Adjusted font size for smaller text */
-    margin-bottom: 1em;
+    font-size: 1.3vw; /* Adjusted font size for smaller text */
+    margin-bottom: 4vh;
 }
