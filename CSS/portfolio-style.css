@@ -194,13 +194,18 @@ body {
 }
 
 .latest-game-info {
+    display:flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
     text-align: left;
     margin-top: 4vh;
 }
 
 .latest-game-info p {
     color: #FFFFFF;
-    font-size: 3vh;
+    font-size: 1em;
     line-height: 1.4;
     max-width: 69vw;
     margin-top: 0;
