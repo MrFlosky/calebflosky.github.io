@@ -41,10 +41,10 @@ body {
 
 #portfolio_text {
     color: transparent;
-    outline-color: #00A859;
+    outline-color: #00A859; /* MSU green outline */
     text-align: center;
     letter-spacing: 1px;
-    font-size: 40px;
+    font-size: 1.5em;
     margin: 20px 0;
     white-space: nowrap;
     overflow: hidden;
@@ -131,66 +131,81 @@ body {
 }
 
 .image-container {
-    display: grid;
-    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 3vw;
     margin: 7vh 0;
+    width: 100%;
 }
 
 .image-content {
+    flex: 1 1 300px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 60vh;
-    min-height: 60vh;
-    margin-right: 6vh;
+    justify-content: center;
+    align-items: center;
 }
 
 .image-content h2 {
     color: #FFFFFF;
-    font-size: 24px;
+    font-size: 1em;
     margin-bottom: 0;
     margin-top: 0;
 }
 
 .image-wrapper {
     width: 100%;
-    min-height: 250px;
+    max-width: 100%;
     overflow: hidden;
 }
 
 .image-wrapper img {
     width: 100%;
-    height: 250px;
+    height: auto;
+    max-height: 30vw;
+    object-fit: cover;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border: 2px solid #fff;
     filter: brightness(75%);
 }
 
 .about-me-info {
+    flex: 2 1 400px;
     text-align: left;
-    margin-top: 40px;
+    padding: 1rem;
 }
 
 
 .about-me-info p {
     color: #FFFFFF;
-    font-size: 3vh;
-    line-height: 1.4;
-    max-width: 35vw;
-    margin-top: 0;
+    font-size: 1.2vw;
+    line-height: 1.5;
+    max-width: 100%;
 }
 
+#about-me-photo {
+    width: 100%;
+    max-width: 12em;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 .image-info {
     text-align: left;
-    margin-top: 65px;
+    width: 50%;
 }
 
 .image-info p {
     color: #FFFFFF;
-    font-size: 19px;
+    font-size: 1.2vw;
     line-height: 1.4;
-    max-width: 550px;
-    margin-top: 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    text-align: justify;
+    margin-top: 2.5em;
 }
 
 .latest-game-info {
@@ -201,11 +216,13 @@ body {
     align-content: center;
     text-align: left;
     margin-top: 4vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
 }
 
 .latest-game-info p {
     color: #FFFFFF;
-    font-size: 1em;
+    font-size: 1vw;
     line-height: 1.4;
     max-width: 69vw;
     margin-top: 0;
@@ -213,13 +230,13 @@ body {
 
 .date {
     color: #00A859;
-    font-size: 16px;
+    font-size: 1vw;
     margin: 5px 0;
 }
 
 .role {
     color: #FFFFFF;
-    font-size: 20px;
+    font-size: 1vw;
     text-decoration: underline;
     margin: 5px 0;
 }
@@ -239,5 +256,33 @@ body {
     100% {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media (max-width: 1144px) {
+    .image-info {
+        width: 100%;
+    }
+    .image-info p {
+        margin-top: 0;
+        font-size: 1.5vw;
+    }
+    img.resume-image {
+        max-width: 85%;
+    }
+    .role, .date{
+        font-size: 2vw;
+    }
+    .image-content h2{
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 1319px) {
+    .about-me-info p {
+        margin-top: -3vh;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        font-size: 1.5vw;
     }
 }

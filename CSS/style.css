@@ -21,7 +21,7 @@ body {
     display: flex;
     justify-content: center;
     max-width: 7vw;
-    margin-top: 10vh;
+    margin-top: 2vw;
 }
 
 .full-container {
@@ -29,10 +29,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 71vw;
+    width: 70vw;
     background: linear-gradient(to bottom, #2E2E2E, #000000); /* Space grey to black gradient background */
     padding-left: 5vw; /* Add some padding */
     padding-right: 5vw; /* Add some padding */
+    max-width: 32.5em;
+    font-size: 1.8vw;
 }
 
 .link {
@@ -58,12 +60,13 @@ body {
     outline-color: #00A859; /* MSU green outline */
     text-align: center;
     letter-spacing: 0.5vw;
-    font-size: 4.5vw;
+    font-size: 2.5em;
     
-    margin: 11vh 0;
+    margin: 5vh 0;
     white-space: nowrap;
     overflow: hidden;
     position: relative;
+
 }
 
 #name::before {
@@ -156,7 +159,7 @@ body {
 img.resume-image {
     display: block;
     margin: 35px auto;
-    max-width: 70%; /* Ensure the image doesn't exceed its container */
+    max-width: 60%; /* Ensure the image doesn't exceed its container */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
     border: 2px solid #fff; /* Add a white border around the image */
     filter: brightness(85%); /* Reduce image brightness */
@@ -165,23 +168,23 @@ img.resume-image {
 
 /* Add a margin to the resume text */
 h2#about_text {
-    margin-top: 35vh; /* Adjust this value to your preference */
+    margin-top: 5vh; /* Adjust this value to your preference */
 }
 
 /* Add a margin to the resume text */
 h3#resume_text {
-    margin-top: 35vh; /* Adjust this value to your preference */
+    margin-top: 5vh; /* Adjust this value to your preference */
 }
 
 /* Add a margin to the resume text */
 h4#portfolio_text {
-    margin-top: 35vh; /* Adjust this value to your preference */
+    margin-top: 5vh; /* Adjust this value to your preference */
 }
 
 /* Add a margin to the resume text */
 a#Latest_Project {
-    margin-top: 12vh; /* Adjust this value to your preference */
-    margin-bottom: 4vh;
+    margin-top: 2vw; /* Adjust this value to your preference */
+    margin-bottom: 2vw;
 }
 
 /* Add CSS styles for the resume image */
