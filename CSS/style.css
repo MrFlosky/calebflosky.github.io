@@ -166,6 +166,16 @@ img.resume-image {
     animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
 }
 
+h2 span,
+h3 span,
+h4 span {
+    display: inline-block;
+    animation: slideUpAndFadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: calc(var(--delay) * 0.4);
+    color: #FFFFFF;
+}
+
+
 /* Add a margin to the resume text */
 h2#about_text {
     margin-top: 5vh; /* Adjust this value to your preference */
