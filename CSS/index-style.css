@@ -1,0 +1,680 @@
+/* styles.css */
+
+/* ---------------- GLOBAL ---------------- */
+
+body {
+    background-color: #202020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+
+/* ---------------- HEADER ---------------- */
+
+#header {
+    background-color: #151515;
+    box-shadow: 0 0 1vmin 0.25vmin rgb(0, 0, 0);
+    width: 100%;
+    height: 10vh;
+    min-height: 20px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2vw;
+}
+
+#header a:first-child {
+    margin-right: auto;
+    padding-left: 1.5vw;
+}
+
+#header a:last-child {
+    padding-right: 1.5vw;
+}
+
+.header-text {
+    color: white;
+    font-size: 3vmin;
+    white-space: nowrap; /* prevents awkward wrapping on narrow screens */
+}
+
+#itchio-image {
+    height: 6vmin;
+    width: auto;       /* prevents stretching */
+}
+
+/* Mobile adjustments */
+@media (max-width: 700px) {
+    .header-text {
+        font-size: 4vmin; /* slightly larger for readability */
+    }
+
+    #itchio-image {
+        height: 7vmin;
+        max-width: 40px;  /* prevent it from dominating the header */
+    }
+}
+
+@media (max-width: 480px) {
+    .header-text {
+        font-size: 4.5vmin; /* keep readable on very small phones */
+    }
+
+    #itchio-image {
+        height: 8vmin;
+    }
+}
+
+/* ---------------- NAME TITLE ---------------- */
+
+#name {
+    margin: 1.75vh;
+}
+
+#name-text {
+    letter-spacing: 0.25vw;
+    font-size: 10vmin;
+    overflow: hidden;
+    position: relative;
+}
+
+/* underline gradients */
+#name-text::before,
+#name-text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-size: 200% 100%;
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+    animation: animateUnderline 1.75s ease-out forwards;
+}
+
+#name-text::before {
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to right, transparent 0%, #FFFFFF 50%);
+    background-position: left bottom;
+    transform: translateX(-50%);
+}
+
+#name-text::after {
+    right: 0;
+    width: 100%;
+    background: linear-gradient(to left, transparent 0%, #FFFFFF 50%);
+    background-position: right bottom;
+    transform: translateX(50%);
+}
+
+#name-text:hover::before {
+    background-position: right bottom;
+}
+
+#name-text:hover::after {
+    background-position: left bottom;
+}
+
+/* letter animation */
+@keyframes slideUpAndFadeIn {
+    0% { transform: translateY(100%); color: transparent; }
+    100% { transform: translateY(0); color: #FFFFFF; }
+}
+
+#name-text span {
+    display: inline-block;
+    animation: slideUpAndFadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: var(--delay * 0.4);
+    text-decoration: none;
+}
+
+/* underline animation */
+@keyframes animateUnderline {
+    0% { width: 0; opacity: 0; }
+    100% { width: 100%; opacity: 1; }
+}
+
+#subtitle {
+    margin-top: -1vh;
+    font-size: 4vmin;
+    font-weight: 300;
+    color: white;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    letter-spacing: 0.25vw;
+}
+
+#subtitle span {
+    opacity: 0;
+    display: inline-block;
+    animation: fade-slide-in 0.6s ease forwards;
+    animation-delay: var(--delay);
+}
+
+@keyframes fade-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(1vh);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------------- PORTFOLIO ---------------- */
+
+#portfolio {
+    background-color: rgb(23, 69, 59);
+    box-shadow: 0 0 2vmin rgb(0, 0, 0);
+    width: 85%;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+
+    position: relative;
+    /* allow overlay content to define the height */
+    overflow: visible;
+
+    box-sizing: border-box;
+}
+
+/* ---------------- PORTFOLIO TITLE ---------------- */
+
+#portfolio-title {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.12rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 12px rgba(0,0,0,0.6);
+    text-transform: uppercase;
+
+    transition: opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+}
+
+/* ---------------- PROJECT GRID ---------------- */
+
+.portfolio-row {
+    display: flex;
+    gap: 2rem;
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        filter 0.25s ease,
+        max-height 0.35s ease,
+        margin 0.35s ease;
+    max-height: 2000px; /* enough for smooth collapse */
+}
+
+.row-top {
+    justify-content: space-between;
+}
+
+.row-bottom {
+    justify-content: center;
+    gap: 3rem;
+}
+
+/* ---------------- PROJECT CARDS ---------------- */
+
+.project-simple {
+    width: 28%;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    text-align: center;
+    box-shadow: none;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.row-bottom .project-simple {
+    width: 32%;
+}
+
+/* Hover lift in normal grid mode */
+.project-simple:hover {
+    transform: translateY(-0.4rem) scale(1.03);
+}
+
+/* ---------------- PROJECT BADGE ---------------- */
+
+.project-badge {
+    position: absolute;
+    top: -2.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff8800;
+    color: white;
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 0.8rem rgba(0,0,0,0.35);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ---------------- PROJECT IMAGES ---------------- */
+
+.project-img {
+    width: 100%;
+    display: block;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.55);
+}
+
+/* Hover: scale the MASK only, not individual imgs */
+.project-simple:hover .cycle-mask {
+    transform: scale(1.05);
+    box-shadow: 0 0 1.2rem rgba(255, 255, 255, 0.35);
+}
+
+/* For safety: bare project-img */
+.project-simple:not(:has(.cycle-mask)):hover .project-img {
+    transform: scale(1.05);
+    box-shadow: 0 0 1.2rem rgba(255, 255, 255, 0.35);
+}
+
+/* ---------------- PROJECT TEXT ---------------- */
+
+.project-simple h3 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.6px;
+    margin-top: 0.75rem;
+    text-shadow: 0 0 6px rgba(0,0,0,0.55);
+}
+
+.project-simple p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #dcdcdc;
+    opacity: 0.95;
+    margin-top: 0.35rem;
+    line-height: 1.45rem;
+    text-shadow: 0 0 5px rgba(0,0,0,0.4);
+}
+
+/* Hover text grow */
+.project-simple:hover h3 {
+    transform: scale(1.12);
+}
+
+.project-simple:hover p {
+    transform: scale(1.07);
+    color: #f0f0f0;
+}
+
+/* ---------------- FLOATING ANIMATION CLASS ---------------- */
+
+.floating {
+    display: inline-block;
+    will-change: transform;
+}
+
+/* ---------------- SLIDESHOW MASK + TRACK ---------------- */
+
+.cycle-mask {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.55);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.cycle-track {
+    display: flex;
+    width: 100%;
+    transform: translateX(0);
+}
+
+.cycle-track--double {
+    width: 200%;
+}
+
+.cycle-track > img {
+    width: 100%;
+    flex: 0 0 100%;
+    display: block;
+}
+
+.cycle-track--double > img {
+    width: 50%;
+    flex: 0 0 50%;
+    display: block;
+}
+
+/* Wrapper around the floating image/mask */
+.project-img-wrapper {
+    display: block;
+}
+
+/* =========================================
+   PROJECT DETAIL OVERLAY (on top of #portfolio)
+   - uses #portfolio as the only background
+   - overlay is in normal flow so page can scroll
+========================================= */
+
+/* Fade/collapse the original grid when detail opens */
+#portfolio.detail-grid-fading #portfolio-title,
+#portfolio.detail-grid-fading .portfolio-row {
+    opacity: 0;
+    transform: scale(0.97);
+    filter: blur(1px);
+    pointer-events: none;
+}
+
+#portfolio.detail-grid-fading .portfolio-row {
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* Overlay container sits INSIDE #portfolio (no absolute) */
+.portfolio-overlay {
+    position: relative;
+    width: 100%;
+    border-radius: inherit;
+    box-shadow: none;
+
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+    pointer-events: none;
+
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Inner layout */
+.portfolio-overlay-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Show the overlay when active */
+#portfolio.detail-overlay-visible .portfolio-overlay {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+#portfolio.detail-grid-fading #portfolio-title,
+#portfolio.detail-grid-fading .portfolio-row {
+    opacity: 0;
+    transform: scale(0.97);
+    filter: blur(1px);
+    pointer-events: none;
+}
+
+#portfolio.detail-grid-fading .portfolio-row {
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* ============================
+   DETAIL GRID AS REAL CSS GRID
+============================ */
+
+/* Container for all detail rows */
+.project-detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Each row is now a 2 column CSS grid */
+.detail-row {
+    display: grid;
+    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
+    grid-template-areas: "media text";
+    column-gap: 2rem;
+
+    align-items: stretch; /* forces equal height columns */
+}
+
+/* Image left / text right */
+.detail-row--image-left {
+    grid-template-areas: "media text";
+}
+
+/* Image right / text left */
+.detail-row--image-right {
+    grid-template-areas: "text media";
+}
+
+/* Map children into the grid areas */
+.detail-row-media {
+    grid-area: media;
+
+    display: flex;
+    justify-content: center; /* vertical center */
+    align-items: center;      /* horizontal center */
+}
+
+.detail-row-media img {
+    width: 100%;
+    display: block;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 2.2rem rgba(0,0,0,0.55);
+}
+
+.detail-row-text {
+    grid-area: text;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertical centering of text */
+}
+
+/* Base typography for detail rows (will be scaled below) */
+.detail-row-heading {
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.detail-row-subheading {
+    font-weight: 600;
+    color: #f0f0f0;
+}
+
+.detail-row-body {
+    color: #e5e5e5;
+}
+
+/* help long identifiers wrap on mobile */
+.detail-row-body,
+.detail-row-heading,
+.detail-row-subheading {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Close / back button */
+.portfolio-overlay-close {
+    align-self: flex-end;
+    margin-bottom: 0.75rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.portfolio-overlay-close:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+/* ============================
+   RESPONSIVE / MOBILE TWEAKS
+============================ */
+
+/* Medium screens */
+@media (max-width: 1024px) {
+    #portfolio {
+        width: 92%;
+        padding: 2.5rem 1.5rem;
+    }
+
+    #portfolio-title {
+        font-size: 2.5rem;
+    }
+
+    .project-simple {
+        width: 30%;
+    }
+
+    .row-bottom .project-simple {
+        width: 34%;
+    }
+}
+
+/* Tablet-ish: stack project cards vertically */
+@media (max-width: 900px) {
+    #portfolio {
+        width: 95%;
+        padding: 2.5rem 1.75rem;
+    }
+
+    #portfolio-title {
+        font-size: 2.3rem;
+    }
+
+    .portfolio-row {
+        flex-direction: column;
+        align-items: center;
+        max-height: 9999px; /* ensure they can collapse gracefully */
+    }
+
+    .project-simple,
+    .row-bottom .project-simple {
+        width: 100%;
+        max-width: 420px;
+    }
+}
+
+/* Small phones: stack overlay rows */
+@media (max-width: 700px) {
+    #name-text {
+        font-size: 8vmin;
+        letter-spacing: 0.15vw;
+    }
+
+    #portfolio {
+        width: 100%;
+        padding: 2rem 1.5rem;
+    }
+
+    #portfolio-title {
+        font-size: 2rem;
+        letter-spacing: 0.08rem;
+    }
+
+    /* On small screens, make each detail row a single column stack */
+    .detail-row {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "media"
+            "text";
+    }
+
+    .detail-row-media,
+    .detail-row-text {
+        flex: 1 1 100%;
+    }
+}
+
+/* Extra tiny screens */
+@media (max-width: 480px) {
+    .detail-row-body {
+        font-size: 0.9rem;
+    }
+
+    #portfolio {
+        padding: 1.75rem 1.75rem;
+    }
+}
+
+/* ====== OVERRIDES: make text bigger vs image and scale with grid ====== */
+
+/* Main hero row typography - biggest */
+.detail-row-heading-main {
+    font-size: clamp(2.3rem, 1.6rem + 1.8vw, 3.2rem);
+    font-weight: 900;
+}
+
+.detail-row-subheading-main {
+    font-size: clamp(1.3rem, 1.0rem + 1.0vw, 2.0rem);
+    font-weight: 600;
+}
+
+.detail-row-body-main {
+    font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+    line-height: 1.7;
+}
+
+/* Secondary rows (all rows after the first) a bit smaller */
+.project-detail-grid .detail-row + .detail-row .detail-row-heading {
+    font-size: clamp(1.4rem, 1.1rem + 0.8vw, 1.9rem);
+    font-weight: 800;
+}
+
+.project-detail-grid .detail-row + .detail-row .detail-row-body {
+    font-size: clamp(1rem, 0.95rem + 0.5vw, 1.3rem);
+    line-height: 1.6;
+}
+
+/* MAIN HERO ROW (first row in the detail grid) */
+
+.project-detail-grid .detail-row:first-child .detail-row-heading {
+    font-size: clamp(2.3rem, 1.6rem + 1.8vw, 3.2rem);
+    font-weight: 900;
+}
+
+.project-detail-grid .detail-row:first-child .detail-row-subheading {
+    font-size: clamp(1.3rem, 1.0rem + 1.0vw, 2.0rem);
+    font-weight: 600;
+}
+
+.project-detail-grid .detail-row:first-child .detail-row-body {
+    font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+    line-height: 1.7;
+}
+
+/* SECONDARY ROWS (all rows after the first) */
+
+.project-detail-grid .detail-row:not(:first-child) .detail-row-heading {
+    font-size: clamp(1.4rem, 1.1rem + 0.8vw, 1.9rem);
+    font-weight: 800;
+}
+
+.project-detail-grid .detail-row:not(:first-child) .detail-row-body {
+    font-size: clamp(1rem, 0.95rem + 0.5vw, 1.3rem);
+    line-height: 1.6;
+}
+
+/* Grid fully hidden (used while overlay is fully visible) */
+#portfolio.detail-grid-hidden #portfolio-title,
+#portfolio.detail-grid-hidden .portfolio-row {
+    display: none;
+}

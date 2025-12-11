@@ -1,0 +1,266 @@
+/* styles.css */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 75vh;
+    background-color: #00A859; /* MSU green */
+    position: relative;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    max-width: 80vw;
+    margin-top: 0;
+}
+
+.itch-io-container {
+    display: flex;
+    justify-content: center;
+    max-width: 7vw;
+    margin-top: 2vw;
+}
+
+.full-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
+    background: linear-gradient(to bottom, #2E2E2E, #000000); /* Space grey to black gradient background */
+    padding-left: 5vw; /* Add some padding */
+    padding-right: 5vw; /* Add some padding */
+    max-width: 32.5em;
+    font-size: 1.8vw;
+}
+
+.link {
+    padding: 0 2em;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: #FFFFFF; /* White text color */
+    font-size: 1.3vw;
+    margin: 0 1em;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+#name-text {
+    color: transparent;
+    outline-color: #00A859; /* MSU green outline */
+    text-align: center;
+    letter-spacing: 0.5vw;
+    font-size: 2.5em;
+    
+    margin: 5vh 0;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+
+}
+
+#name-text::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Start from the left edge */
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, #FFFFFF 50%); /* White underline to the right */
+    background-size: 200% 100%;
+    background-position: left bottom; /* Start from the left */
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+}
+
+#name-text::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0; /* Start from the right edge */
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, transparent 0%, #FFFFFF 50%); /* White underline to the left */
+    background-size: 200% 100%;
+    background-position: right bottom; /* Start from the right */
+    opacity: 1;
+    transition: background-position 0.3s ease, opacity 0.3s ease;
+}
+
+#name-text:hover::before {
+    background-position: right bottom; /* Move to the right */
+    opacity: 1;
+}
+
+#name-text:hover::after {
+    background-position: left bottom; /* Move to the left */
+    opacity: 1;
+}
+
+/* Keyframes animation to reveal each letter by sliding up and changing color */
+@keyframes slideUpAndFadeIn {
+    0% {
+        transform: translateY(100%);
+        color: transparent;
+    }
+    100% {
+        transform: translateY(0);
+        color: #FFFFFF; /* White text color */
+    }
+}
+
+/* Apply the sliding and fading animation to each letter */
+#name-text span {
+    display: inline-block;
+    animation: slideUpAndFadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: var(--delay * 0.4); /* Delay the animation based on the delay variable */
+    text-decoration: none;
+}
+
+@keyframes animateUnderline {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+#name-text::before {
+    /* ... (your existing styles) ... */
+    animation: animateUnderline 1.75s ease-out forwards;
+    transform: translateX(-50%); /* Center the underline */
+}
+
+#name-text::after {
+    /* ... (your existing styles) ... */
+    animation: animateUnderline 1.75s ease-out forwards;
+    transform: translateX(50%); /* Center the underline */
+}
+
+#itchio-image{
+    height:3vw;
+    width:3vw;
+}
+
+/* Add CSS styles for the resume image */
+img.resume-image {
+    display: block;
+    margin: 35px auto;
+    max-width: 60%; /* Ensure the image doesn't exceed its container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    border: 2px solid #fff; /* Add a white border around the image */
+    filter: brightness(85%); /* Reduce image brightness */
+    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+}
+
+h2 span,
+h3 span,
+h4 span {
+    display: inline-block;
+    animation: slideUpAndFadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: calc(var(--delay) * 0.4);
+    color: #FFFFFF;
+}
+
+
+/* Add a margin to the resume text */
+h2#about_text {
+    margin-top: 5vh; /* Adjust this value to your preference */
+}
+
+/* Add a margin to the resume text */
+h3#resume_text {
+    margin-top: 5vh; /* Adjust this value to your preference */
+}
+
+/* Add a margin to the resume text */
+h4#portfolio_text {
+    margin-top: 5vh; /* Adjust this value to your preference */
+}
+
+/* Add a margin to the resume text */
+a#Latest_Project {
+    margin-top: 2vw; /* Adjust this value to your preference */
+    margin-bottom: 2vw;
+}
+
+/* Add CSS styles for the resume image */
+img.image-link {
+    display: block;
+    margin: 35px auto;
+    max-width: 50%; /* Ensure the image doesn't exceed its container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    border: 2px solid #fff; /* Add a white border around the image */
+    filter: brightness(75%); /* Reduce image brightness */
+    animation: fade-in 1s ease-in-out; /* Apply fade-in animation */
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add CSS styles to fade in other content sections */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.myself .fade-in {
+    animation-delay: 0s;
+}
+
+/* Delay the fade-in animation for each content section */
+.section-1 .fade-in {
+    animation-delay: 0.2s; /* Delay for the first section */
+}
+
+.section-2 .fade-in {
+    animation-delay: 0.4s; /* Delay for the second section */
+}
+
+.section-3 .fade-in {
+    animation-delay: 0.6s; /* Delay for the third section */
+}
+
+.section-4 .fade-in {
+    animation-delay: 0.8s; /* Delay for the fourth section */
+}
+
+.section-5 .fade-in {
+    animation-delay: 1.0s; /* Delay for the fifth section */
+}
+
+/* Add styles for links */
+.image-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+
+
+.game-embed{
+    width: 56vw;
+    height: 35vw;
+}
