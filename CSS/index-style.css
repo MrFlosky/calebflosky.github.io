@@ -1041,33 +1041,59 @@ body {
 
 @media (max-width: 700px) {
 
-  /* Top nav row: behave like bottom row */
+  /* ===== FORCE TOP NAV ROW INTO FLEX COLUMN ===== */
   .portfolio-overlay-inner .portfolio-nav-row:first-of-type {
-    grid-template-columns: auto 1fr auto;
-    column-gap: 0.75rem;
+    display: flex;                 /* override grid */
+    flex-direction: column;        /* stack vertically */
+    align-items: center;
+    gap: 0.75rem;
   }
 
-  /* Prevent itch link text from shrinking */
-  .portfolio-overlay-inner .portfolio-nav-row:first-of-type .detail-itch-link {
-    flex-shrink: 0;
-    white-space: nowrap;
-    font-size: 0.85rem;
-  }
-
-  /* Give buttons room instead of squeezing */
+  /* Buttons FIRST */
   .portfolio-overlay-inner .portfolio-nav-row:first-of-type .portfolio-nav-right {
+    order: 1;
     display: flex;
-    flex-wrap: wrap;        /* same as bottom */
-    justify-content: flex-end;
-    gap: 0.5rem;
-    min-width: max-content; /* ← KEY LINE */
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
   }
 
-  /* Match button sizing */
-  .portfolio-overlay-inner .portfolio-nav-btn {
-    font-size: 0.85rem;
-    padding: 0.25rem 0.7rem;
+  /* Play on Itch BELOW */
+  .portfolio-overlay-inner .portfolio-nav-row:first-of-type .detail-itch-link {
+    order: 2;
+    font-size: 0.9rem;
     white-space: nowrap;
+  }
+
+  /* ===== BOTTOM NAV ROW: keep itch ABOVE ===== */
+  .portfolio-overlay-inner .portfolio-nav-row:last-of-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .portfolio-overlay-inner .portfolio-nav-row:last-of-type .detail-itch-link {
+    order: 1;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .portfolio-overlay-inner .portfolio-nav-row:last-of-type .portfolio-nav-right {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .portfolio-overlay-inner .portfolio-nav-row:first-of-type .detail-itch-link {
+    grid-column: auto !important;
+    justify-self: auto !important;
+  }
+
+  .portfolio-overlay-inner .portfolio-nav-row:last-of-type .detail-itch-link {
+    grid-column: auto !important;
+    justify-self: auto !important;
   }
 }
-
