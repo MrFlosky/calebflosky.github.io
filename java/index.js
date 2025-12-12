@@ -7,12 +7,11 @@ const TEXT_FLOAT_INTENSITY = 0.35;
 
 /* =========================================
    PROJECT CONTENT CONFIG
-   - main: first row (big image + main text)
-   - sections: additional rows (image + text)
 ========================================= */
 
 const PROJECT_CONTENT = {
     "Spell Forge": {
+        url: "spell-forge",
         main: {
             title: "Spell Forge",
             subtitle: "Gameplay Programming & Spell System Design",
@@ -34,10 +33,11 @@ const PROJECT_CONTENT = {
                 heading: "Modular and Organized Projectile Data",
                 body: "As Spellforge continued to grow with an increasing number of enchantments and artifacts, a recurring issue became clear. The variables required by each projectile had become too large, with most of them redundant to a player's current build. The projectile data model was overloaded with fields that only applied to specific spell types, making the system inefficient and difficult to scale. To solve this, I moved to a component-based setup that gives each projectile only the data it actually needs.<br><br>For example, when a player fires a projectile with the Shadow tome, the system adds a ShadowTomeProjectileData component to that projectile as it is created. This allows the projectile to track the Shadow Artifact’s data, including its initial position and an explosion counter used for distance-based effects. By isolating data to only the projectiles that require it, the system remains modular, efficient, and scalable."
             }
-                
         ]
     },
+
     "Marble Game": {
+        url: "marble-game",
         main: {
             title: "Marble Game",
             subtitle: "Networking & Systems Programming",
@@ -51,7 +51,9 @@ const PROJECT_CONTENT = {
             }
         ]
     },
+
     "Crazy Cash! Needs to Pay Rent": {
+        url: "crazy-cash",
         main: {
             title: "Crazy Cash! Needs to Pay Rent",
             subtitle: "Environment & Systems Programming",
@@ -65,7 +67,9 @@ const PROJECT_CONTENT = {
             }
         ]
     },
+
     "Grave": {
+        url: "grave",
         main: {
             title: "Grave",
             subtitle: "Gameplay Programming",
@@ -84,7 +88,9 @@ const PROJECT_CONTENT = {
             }
         ]
     },
+
     "Maybe Mayhem": {
+        url: "maybe-mayhem",
         main: {
             title: "Maybe Mayhem",
             subtitle: "Animation · Ragdoll · Level Design · Player Controls",
@@ -104,17 +110,14 @@ const PROJECT_CONTENT = {
    DOM READY
 ------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-    // 1) Build the image sliders first (so wrappers/masks exist)
     initializeImageCycling();
 
-    // 2) FLOATING ITEMS (includes header img + project wrappers)
     document.querySelectorAll(".floating").forEach(el => {
         el._floatIntensity = el.dataset.strength ? parseFloat(el.dataset.strength) : 1.5;
         el._floatSpeed = el.dataset.speed ? parseFloat(el.dataset.speed) : 1.0;
         startRandomFloat(el);
     });
 
-    // 3) HOVER FLOAT TEXT
     document.querySelectorAll(".header-text").forEach(link => {
         link._floatIntensity = TEXT_FLOAT_INTENSITY;
         link._floatSpeed = link.dataset.speed ? parseFloat(link.dataset.speed) : 1.0;
@@ -123,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("mouseleave", () => stopFloating(link));
     });
 
-    // 4) Project detail overlay interactions
     setupProjectDetailView();
 });
 
@@ -168,7 +170,6 @@ function startRandomFloat(el) {
 
         requestAnimationFrame(animate);
 
-        // rotation
         if (tRot >= 1) {
             tRot = 0;
             durRot = rand(5.5, 7.0) / (ANIMATION_SPEED * speed);
@@ -179,7 +180,6 @@ function startRandomFloat(el) {
         const curRot = lerp(rot, targetRot, smoothstep(Math.min(1, tRot)));
         if (tRot >= 1) rot = targetRot;
 
-        // scale
         if (tScale >= 1) {
             tScale = 0;
             durScale = rand(7.0, 9.5) / (ANIMATION_SPEED * speed);
@@ -191,7 +191,6 @@ function startRandomFloat(el) {
         const curScale = lerp(scale, targetScale, smoothstep(Math.min(1, tScale)));
         if (tScale >= 1) scale = targetScale;
 
-        // movement
         if (tMove >= 1) {
             tMove = 0;
             durMove = rand(6.2, 8.2) / (ANIMATION_SPEED * speed);
@@ -221,7 +220,7 @@ function startRandomFloat(el) {
 }
 
 /* -------------------------------------------------------
-   IMAGE CYCLING ENGINE (masked side-to-side slide)
+   IMAGE CYCLING ENGINE
 ------------------------------------------------------- */
 function initializeImageCycling() {
     const imgs = Array.from(document.querySelectorAll(".cycle-img"));
@@ -232,27 +231,18 @@ function initializeImageCycling() {
             .map(x => x.trim())
             .filter(x => x.length > 0);
 
-        if (frames.length <= 1) {
-            // single-image cards: keep as-is (their <img> stays .floating)
-            return;
-        }
+        if (frames.length <= 1) return;
 
         let index = parseInt(originalImg.dataset.index || "0", 10);
-        if (isNaN(index) || index < 0 || index >= frames.length) {
-            index = 0;
-        }
+        if (isNaN(index) || index < 0 || index >= frames.length) index = 0;
 
-        // --- 1. Build mask + track structure ---
         const mask = document.createElement("div");
         mask.className = "cycle-mask";
 
         const track = document.createElement("div");
-        track.className = "cycle-track";
-        track.style.display = "flex";
-        track.style.width = "200%";
+        track.className = "cycle-track cycle-track--double";
         track.style.transform = "translateX(0)";
 
-        // base classes for inner images: remove 'floating' and 'cycle-img'
         const baseClasses = Array.from(originalImg.classList)
             .filter(c => c !== "floating" && c !== "cycle-img");
 
@@ -274,32 +264,24 @@ function initializeImageCycling() {
         track.appendChild(imgNext);
         mask.appendChild(track);
 
-        // --- 2. Create a FLOAT WRAPPER around the mask ---
         const floatWrapper = document.createElement("div");
         floatWrapper.className = "project-img-wrapper floating";
 
-        // carry over floating data attrs and images from original img
-        if (originalImg.dataset.strength) {
+        if (originalImg.dataset.strength)
             floatWrapper.dataset.strength = originalImg.dataset.strength;
-        }
-        if (originalImg.dataset.speed) {
+        if (originalImg.dataset.speed)
             floatWrapper.dataset.speed = originalImg.dataset.speed;
-        }
-        if (originalImg.dataset.images) {
+        if (originalImg.dataset.images)
             floatWrapper.dataset.images = originalImg.dataset.images;
-        }
-        if (originalImg.dataset.index) {
+        if (originalImg.dataset.index)
             floatWrapper.dataset.index = originalImg.dataset.index;
-        }
 
         floatWrapper.appendChild(mask);
 
-        // Replace original <img> with wrapper (which now contains mask+track+imgs)
         originalImg.replaceWith(floatWrapper);
 
-        // --- 3. Set up the sliding interval ---
         const intervalMs = 7500;
-        const slideDuration = 450; // ms
+        const slideDuration = 450;
 
         setInterval(() => {
             const upcomingIndex = (index + 1) % frames.length;
@@ -320,8 +302,6 @@ function initializeImageCycling() {
                 imgCurrent.src = frames[index];
                 imgNext.src = frames[afterUpcomingIndex];
 
-                // Force reflow
-                // eslint-disable-next-line no-unused-expressions
                 track.offsetHeight;
             }, slideDuration);
 
@@ -330,10 +310,7 @@ function initializeImageCycling() {
 }
 
 /* =======================================================
-   PROJECT DETAIL VIEW: OVERLAY ON TOP OF PORTFOLIO
-   - First row: big image + main text
-   - Later rows: image + text, sides alternate
-   - Only the first image floats/cycles
+   PROJECT DETAIL VIEW + URL State Support (using ?project=)
 ======================================================= */
 
 function setupProjectDetailView() {
@@ -343,6 +320,23 @@ function setupProjectDetailView() {
     const rows = Array.from(portfolio.querySelectorAll(".portfolio-row"));
     let detailOpen = false;
     let activeKey = null;
+
+    // Read project name from ?project= param
+    function getProjectFromURL() {
+        const path = window.location.pathname;
+
+        // Match /project/whatever
+        const match = path.match(/\/project\/([^\/]+)/);
+        if (!match) return null;
+
+        const projectURL = match[1].toLowerCase();
+
+        return Object.keys(PROJECT_CONTENT).find(key => {
+            return PROJECT_CONTENT[key].url.toLowerCase() === projectURL;
+        }) || null;
+    }
+
+
 
     const overlay = createOverlay(portfolio);
 
@@ -361,34 +355,30 @@ function setupProjectDetailView() {
         `;
         portfolioEl.appendChild(overlayEl);
 
-        // 🔹 start hidden so it doesn't stretch the portfolio until we open it
         overlayEl.style.display = "none";
 
         overlayEl.querySelectorAll(".portfolio-overlay-close").forEach(btn => {
-            btn.addEventListener("click", () => {
-                closeDetail();
-            });
+            btn.addEventListener("click", () => closeDetail({ updateHistory: true }));
         });
 
         return overlayEl;
     }
 
+    function closeDetail({ updateHistory }) {
+        // Only push a new history entry when user actively closes
+        if (updateHistory) {
+            history.pushState({}, "", "/");
+        }
 
-    function closeDetail() {
-        const OVERLAY_FADE_DURATION = 350;  // match CSS transition duration
+        const OVERLAY_FADE_DURATION = 350;
 
-        // 1) Start overlay fade OUT (keeps grid hidden for now)
         portfolio.classList.remove("detail-overlay-visible");
 
-        // 2) After overlay fade is done:
         setTimeout(() => {
-            // Stop overlay from taking up height
             overlay.style.display = "none";
 
-            // Show the grid again, but still in "fading" state (opacity 0 etc.)
             portfolio.classList.remove("detail-grid-hidden");
 
-            // 3) Next frame, remove fading so it animates back in smoothly
             requestAnimationFrame(() => {
                 portfolio.classList.remove("detail-grid-fading");
 
@@ -397,9 +387,6 @@ function setupProjectDetailView() {
             });
         }, OVERLAY_FADE_DURATION);
     }
-
-
-
 
     function buildDetailGrid(card, key) {
         const grid = overlay.querySelector(".project-detail-grid");
@@ -414,7 +401,6 @@ function setupProjectDetailView() {
             sections: []
         };
 
-        // 1) MAIN ROW: big image + main text
         const mainRow = document.createElement("div");
         mainRow.className = "detail-row detail-row--image-left";
 
@@ -424,7 +410,6 @@ function setupProjectDetailView() {
         const mainText = document.createElement("div");
         mainText.className = "detail-row-text";
 
-        // Grab images / float settings from the clicked card
         const sourceWrapper =
             card.querySelector(".project-img-wrapper") ||
             card.querySelector(".cycle-img") ||
@@ -436,22 +421,17 @@ function setupProjectDetailView() {
         let speed = "0.8";
 
         if (sourceWrapper) {
-            if (sourceWrapper.dataset.images) {
+            if (sourceWrapper.dataset.images)
                 imagesAttr = sourceWrapper.dataset.images;
-            }
-            if (sourceWrapper.dataset.index) {
+            if (sourceWrapper.dataset.index)
                 startIndex = sourceWrapper.dataset.index;
-            }
-            if (sourceWrapper.dataset.strength) {
+            if (sourceWrapper.dataset.strength)
                 strength = sourceWrapper.dataset.strength;
-            }
-            if (sourceWrapper.dataset.speed) {
+            if (sourceWrapper.dataset.speed)
                 speed = sourceWrapper.dataset.speed;
-            }
         }
 
         if (imagesAttr) {
-            // Create a new floating cycle-img for the overlay main row
             const overlayImg = document.createElement("img");
             overlayImg.className = "project-img floating cycle-img";
             overlayImg.dataset.images = imagesAttr;
@@ -464,7 +444,6 @@ function setupProjectDetailView() {
 
             mainMedia.appendChild(overlayImg);
         } else if (sourceWrapper) {
-            // Fallback: static but floating image
             const innerImg = sourceWrapper.querySelector("img") || sourceWrapper;
             const overlayImg = document.createElement("img");
             overlayImg.className = "project-img floating";
@@ -474,7 +453,6 @@ function setupProjectDetailView() {
             mainMedia.appendChild(overlayImg);
         }
 
-        // Main text
         const h = document.createElement("h3");
         h.className = "detail-row-heading detail-row-heading-main";
         h.textContent = content.main.title;
@@ -488,16 +466,13 @@ function setupProjectDetailView() {
         body.innerHTML = content.main.body || "";
 
         mainText.appendChild(h);
-        if (content.main.subtitle) {
-            mainText.appendChild(sub);
-        }
+        if (content.main.subtitle) mainText.appendChild(sub);
         mainText.appendChild(body);
 
         mainRow.appendChild(mainMedia);
         mainRow.appendChild(mainText);
         grid.appendChild(mainRow);
 
-        // 2) SECTIONS: alternate image/text sides (NOT floating)
         (content.sections || []).forEach((section, idx) => {
             const row = document.createElement("div");
             const rowIndex = idx + 1;
@@ -513,7 +488,6 @@ function setupProjectDetailView() {
             const text = document.createElement("div");
             text.className = "detail-row-text";
 
-            // Section image (still, no floating)
             if (section.image) {
                 const secImg = document.createElement("img");
                 secImg.className = "project-img";
@@ -521,7 +495,6 @@ function setupProjectDetailView() {
                 media.appendChild(secImg);
             }
 
-            // Section text
             if (section.heading) {
                 const secHead = document.createElement("h4");
                 secHead.className = "detail-row-heading";
@@ -548,10 +521,8 @@ function setupProjectDetailView() {
             grid.appendChild(row);
         });
 
-        // Re-run image cycling for any new .cycle-img in the overlay (hero only)
         initializeImageCycling();
 
-        // Start floating ONLY for overlay floating elements (hero + maybe fallback)
         overlay.querySelectorAll(".floating").forEach(el => {
             if (!el._isFloating) {
                 el._floatIntensity = el.dataset.strength ? parseFloat(el.dataset.strength) : 1.5;
@@ -561,27 +532,37 @@ function setupProjectDetailView() {
         });
     }
 
-    function openDetail(card, key, isSwitching) {
+    /**
+     * openDetail
+     * updateHistory = true  → user clicked card (push ?project=...)
+     * updateHistory = false → popstate/init: DOM only
+     */
+    function openDetail(card, key, { updateHistory, isSwitching }) {
+        if (updateHistory) {
+            const urlObj = new URL(window.location.href);
+            const content = PROJECT_CONTENT[key];
+
+            if (content && content.url) {
+                history.pushState({ project: key }, "", `/project/${content.url}`);
+            }
+        }
+
+
         buildDetailGrid(card, key);
 
-        // Always make sure overlay participates in layout when we're opening it
         overlay.style.display = "block";
 
-        const GRID_FADE_DURATION = 250; // ms, should line up with CSS
+        const GRID_FADE_DURATION = 250;
 
         if (isSwitching) {
-            // Grid is already hidden from a previous project.
-            // Just ensure overlay is visible (no extra grid animation).
             portfolio.classList.add("detail-overlay-visible");
             detailOpen = true;
             activeKey = key;
             return;
         }
 
-        // 1) Start fading the grid out
         portfolio.classList.add("detail-grid-fading");
 
-        // 2) After grid fade-out, hide grid & show overlay
         setTimeout(() => {
             portfolio.classList.add("detail-grid-hidden");
             portfolio.classList.add("detail-overlay-visible");
@@ -591,31 +572,59 @@ function setupProjectDetailView() {
         activeKey = key;
     }
 
-
-    // Wire up click handlers on all project cards
+    // CLICK HANDLERS
     rows.forEach(row => {
-        const cards = Array.from(row.querySelectorAll(".project-simple"));
-
-        cards.forEach(card => {
+        row.querySelectorAll(".project-simple").forEach(card => {
             card.addEventListener("click", () => {
                 const titleEl = card.querySelector("h3");
                 const key = titleEl ? titleEl.textContent.trim() : "";
 
-                // Nothing open yet → open this one
                 if (!detailOpen) {
-                    openDetail(card, key, false);
+                    openDetail(card, key, { updateHistory: true, isSwitching: false });
                     return;
                 }
 
-                // Clicking the same project → close
                 if (detailOpen && key === activeKey) {
-                    closeDetail();
+                    closeDetail({ updateHistory: true });
                     return;
                 }
 
-                // Another project is open → just swap overlay content, no extra grid fade
-                openDetail(card, key, true);
+                openDetail(card, key, { updateHistory: true, isSwitching: true });
             });
         });
     });
+
+    // BACK/FORWARD BUTTON SUPPORT
+    window.addEventListener("popstate", () => {
+        const project = getProjectFromURL();
+
+        // No project in URL → show grid, hide overlay, but DO NOT pushState
+        if (!project) {
+            if (detailOpen) {
+                closeDetail({ updateHistory: false });
+            }
+            return;
+        }
+
+        // Project in URL → open that detail, but DO NOT pushState
+        const card = Array.from(document.querySelectorAll(".project-simple"))
+            .find(c => c.querySelector("h3")?.textContent.trim().toLowerCase() === project.toLowerCase());
+
+        if (card) {
+            openDetail(card, project, { updateHistory: false, isSwitching: detailOpen });
+        }
+    });
+
+    // AUTO-OPEN ON PAGE LOAD IF URL HAS ?project=
+    const initial = getProjectFromURL();
+    if (initial) {
+        const card = Array.from(document.querySelectorAll(".project-simple"))
+            .find(c => c.querySelector("h3")?.textContent.trim().toLowerCase() === initial.toLowerCase());
+
+        if (card) {
+            // First state: whatever URL is already loaded
+            history.replaceState({ project: initial }, "", window.location.href);
+            openDetail(card, initial, { updateHistory: false, isSwitching: false });
+        }
+    }
 }
