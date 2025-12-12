@@ -9,102 +9,121 @@ const TEXT_FLOAT_INTENSITY = 0.35;
    PROJECT CONTENT CONFIG
 ========================================= */
 
+// Add these entries (everything besides Spell Forge) into your PROJECT_CONTENT object
+
 const PROJECT_CONTENT = {
-    "Spell Forge": {
-        url: "spell-forge",
-        main: {
-            title: "Spell Forge",
-            subtitle: "Gameplay Programming & Spell System Design",
-            body: "Online multiplayer top-down fantasy combat game built with Quantum / Unity. I focused on deterministic gameplay programming and a flexible spell system for artifacts and enchantments."
-        },
-        sections: [
-            {
-                images: ["/images/Spell Forge/technical-1.png","/images/Spell Forge/variety-example.gif"],
-                heading: "Modifying a Projectile's Launch Data",
-                body: "Spellforge's spell system is built around the player's pickups, your base spell, the \"Artifact\", and add-ons called \"Enchantments\". On spell fired, each enchantment directly adds an effect to the projectile fired. Each projectile starts with base stats from its TomeConfig, then it loops through and applies every equipped spell layer to modify those stats or attach new behavior.<br><br>Shown in the function \"ShootTome\", I am looping through each spell in order, which lets different effects stack or interact depending on how the player sets up their loadout. This is what allows the same tome to behave completely differently depending on what the player equips."
-            },
-            {
-                images: ["/images/Spell Forge/technical-2.png","/images/Spell Forge/return-example.gif"],
-                heading: "Individual Enchantment Behavior",
-                body: "All enchantments in Spellforge inherit from a base SpellConfig, which gives each enchantment a consistent set of hooks to modify the projectile at different points in its lifecycle. OnFireSpell is the first one that gets called right when the projectile is fired. For this enchantment, Return, I use that hook to modify the projectile’s lifetime before it even enters flight, letting me time how long it will exist. Once the projectile is spawned and flying, the system begins calling OnSpellFlying every frame.<br><br>For this enchantment, I need access to the ProjectileAge component. ProjectileAge is added to each projectile fired if it comes from an artifact or enchantment that has its Required Age flag enabled. ProjectileAge is updated by a separate system that increments the age of every active projectile, letting projectiles react to how long they have been alive.<br><br>Since Return’s behavior depends on timing, I grab both BaseProjectile and ProjectileAge before doing anything else. The core logic of Return happens at the halfway point of the projectile’s lifetime. When the projectile’s age reaches half of its total lifetime, I mark it as returning, flip its base direction, and update its physics velocity so it cleanly travels back toward its caster. I also trigger an animation event on the player's HUD to show the return happening."
-            },
-            {
-                images: ["/images/Spell Forge/technical-3.png","/images/Spell Forge/shadow-example.gif"],
-                heading: "Modular and Organized Projectile Data",
-                body: "As Spellforge continued to grow with an increasing number of enchantments and artifacts, a recurring issue became clear. The variables required by each projectile had become too large, with most of them redundant to a player's current build. The projectile data model was overloaded with fields that only applied to specific spell types, making the system inefficient and difficult to scale. To solve this, I moved to a component-based setup that gives each projectile only the data it actually needs.<br><br>For example, when a player fires a projectile with the Shadow tome, the system adds a ShadowTomeProjectileData component to that projectile as it is created. This allows the projectile to track the Shadow Artifact’s data, including its initial position and an explosion counter used for distance-based effects. By isolating data to only the projectiles that require it, the system remains modular, efficient, and scalable."
-            }
-        ]
+  "Spell Forge": {
+    url: "spell-forge",
+    titleImage: "/images/Spell Forge/SpellForge-Logo.png",
+    main: {
+      title: "Spell Forge",
+      subtitle: "Gameplay & Networking Programming",
+      body: "Online multiplayer top-down fantasy combat game built with Quantum / Unity. I focused on deterministic gameplay programming and a flexible spell system for artifacts and enchantments."
     },
+    sections: [
+      {
+        images: ["/images/Spell Forge/technical-1.png", "/images/Spell Forge/variety-example.gif"],
+        heading: "Modifying a Projectile's Launch Data",
+        body: "Spell Forge's spell system is built around the player's pickups, your base spell, the \"Artifact\", and add-ons called \"Enchantments\". On spell fired, each enchantment directly adds an effect to the projectile fired. Each projectile starts with base stats from its TomeConfig, then it loops through and applies every equipped spell layer to modify those stats or attach new behavior.<br><br>Shown in the function \"ShootTome\", I am looping through each spell in order, which lets different effects stack or interact depending on how the player sets up their loadout. This is what allows the same tome to behave completely differently depending on what the player equips."
+      },
+      {
+        images: ["/images/Spell Forge/technical-2.png", "/images/Spell Forge/return-example.gif"],
+        heading: "Individual Enchantment Behavior",
+        body: "All enchantments in Spell Forge inherit from a base SpellConfig, which gives each enchantment a consistent set of hooks to modify the projectile at different points in its lifecycle. OnFireSpell is the first one that gets called right when the projectile is fired. For this enchantment, Return, I use that hook to modify the projectile’s lifetime before it even enters flight, letting me time how long it will exist. Once the projectile is spawned and flying, the system begins calling OnSpellFlying every frame.<br><br>For this enchantment, I need access to the ProjectileAge component. ProjectileAge is added to each projectile fired if it comes from an artifact or enchantment that has its Required Age flag enabled. ProjectileAge is updated by a separate system that increments the age of every active projectile, letting projectiles react to how long they have been alive.<br><br>Since Return’s behavior depends on timing, I grab both BaseProjectile and ProjectileAge before doing anything else. The core logic of Return happens at the halfway point of the projectile’s lifetime. When the projectile’s age reaches half of its total lifetime, I mark it as returning, flip its base direction, and update its physics velocity so it cleanly travels back toward its caster. I also trigger an animation event on the player's HUD to show the return happening."
+      },
+      {
+        images: ["/images/Spell Forge/technical-3.png", "/images/Spell Forge/shadow-example.gif"],
+        heading: "Modular and Organized Projectile Data",
+        body: "As Spell Forge continued to grow with an increasing number of enchantments and artifacts, a recurring issue became clear. The variables required by each projectile had become too large, with most of them redundant to a player's current build. The projectile data model was overloaded with fields that only applied to specific spell types, making the system inefficient and difficult to scale. To solve this, I moved to a component-based setup that gives each projectile only the data it actually needs.<br><br>For example, when a player fires a projectile with the Shadow tome, the system adds a ShadowTomeProjectileData component to that projectile as it is created. This allows the projectile to track the Shadow Artifact’s data, including its initial position and an explosion counter used for distance-based effects. By isolating data to only the projectiles that require it, the system remains modular, efficient, and scalable."
+      }
+    ]
+  },
 
-    "Marble Game": {
-        url: "marble-game",
-        main: {
-            title: "Marble Game",
-            subtitle: "Networking & Systems Programming",
-            body: "Physics-driven multiplayer marble arena. I focused on networking, deterministic state sync, and systems programming for movement, collisions, and scoring."
-        },
-        sections: [
-            {
-                images: ["/images/Marble-Game/img2.png"],
-                heading: "Networking",
-                body: "Designed systems to keep player positions, velocities, and collisions consistent across clients while keeping the controls feeling responsive."
-            }
-        ]
+  "Miskatonic": {
+    url: "miskatonic",
+    main: {
+      title: "Miskatonic",
+      subtitle: "AI · Camera & Dialogue · Maze Generation · Player Programming",
+      body: "Project made in MSU's MI 445 Game Design and Development I. You play as an ancient entity, Labgoroth, manipulating human psyches to cultivate fear. As the AI-controlled humans attempt to flee, your goal is to amplify their terror until Labgoroth fully manifests once fear reaches its peak."
     },
+    sections: [
+      {
+        images: ["/images/Miskatonic/technical-1.png"],
+        heading: "AI and Fear Escalation",
+        body: "I programmed the AI to roam the maze using A-star navigation, allowing each NPC to wander around the maze and slowly navigate the environment. Because the player’s goal is to scare all four AI before the NPCs complete their objectives on the map, the AI constantly applying pressure forces the player to plan ahead rather than react moment to moment. The player must intentionally kite the AI into specific areas, control spacing between NPCs, and manipulate their movement paths to interrupt objectives and build fear efficiently. This turns the AI from simple obstacles into moving systems the player has to manage, making route planning, timing, and positioning central to successfully scaring all AI before they finish their tasks."
+      },
+      {
+        images: ["/images/Miskatonic/technical-2.png"],
+        heading: "Maze Generation",
+        body: "I built the maze and room generation system so each playthrough produces a fresh layout while remaining fully traversable. The generation logic ensures all rooms are placed without collision, then connects them through a maze structure that guarantees valid paths between every space. By validating connectivity and spacing during generation, the layout stays readable for navigation while still introducing uncertainty in how routes unfold, which directly supports exploration, kiting, and AI movement throughout the map."
+      }
+    ]
+  },
 
-    "Crazy Cash! Needs to Pay Rent": {
-        url: "crazy-cash",
-        main: {
-            title: "Crazy Cash! Needs to Pay Rent",
-            subtitle: "Environment & Systems Programming",
-            body: "Chaotic prototype centered on money, rent, and environmental storytelling. I handled level logic, interactables, and the systems that make the world feel reactive."
-        },
-        sections: [
-            {
-                images: ["/images/Crazy Cash/img1.png"],
-                heading: "Worldbuilding",
-                body: "Focused on how props, triggers, and systems combine to tell the story of a character scrambling to pay rent in a highly interactive environment."
-            }
-        ]
+  "Marble Game": {
+    url: "marble-game",
+    main: {
+      title: "Marble Game",
+      subtitle: "Networking Programming & Systems Programming",
+      body: "Multiplayer zombie tag experience designed for planetarium projection. Players join using their phones as one becomes the zombie and others try to avoid infection until only one remains."
     },
+    sections: [
+      {
+        images: ["/images/Marble-Game/technical-1.png","/images/Marble-Game/technical-3.jpg"],
+        heading: "WebSocket Phone to Unity Connection",
+        body: "I developed the WebSocket-to-Unity connection that allows phone inputs to reliably control players in real time, enabling fast-paced group sessions without sacrificing stability. Incoming messages are parsed, validated, and filtered by lobby code to ensure each client only responds to events intended for its active session. Player join and leave events are handled dynamically, keeping the lobby state synchronized as connections change. By decoupling network message handling from gameplay logic and enforcing lightweight validation on every update, the system maintains responsiveness under multiple simultaneous connections while preventing cross-lobby interference."
+      },
+      {
+        images: ["/images/Marble-Game/technical-2.png"],
+        heading: "Round-Based Game Loop",
+        body: "I implemented the game loop to manage rounds and transitions, including infection state, win conditions, and clean resets so the experience stays fast and readable for a live audience. The system continuously evaluates player state during active gameplay, determines when a round-ending condition has been met, and triggers a controlled transition into the next phase without interrupting flow. Timers, player freezing, and team resets are handled centrally to ensure each round starts in a consistent state, allowing matches to resolve quickly while remaining easy to follow for spectators."
+      }
+    ]
+  },
 
-    "Grave": {
-        url: "grave",
-        main: {
-            title: "Grave",
-            subtitle: "Gameplay Programming",
-            body: "Atmospheric project focused on combat feel, enemy behavior, and pacing. I worked on core gameplay systems and iteration on responsiveness."
-        },
-        sections: [
-            {
-                images: ["/images/Grave/img2.png"],
-                heading: "Combat Feel",
-                body: "Iterated on attack timings, feedback, and enemy behavior so encounters feel deliberate and readable without losing tension."
-            },
-            {
-                images: ["/images/Grave/img3.png"],
-                heading: "Systems",
-                body: "Built modular gameplay logic so new enemies or interactions could be added quickly without rewriting existing behavior."
-            }
-        ]
+  "Crazy Cash! Needs to Pay Rent": {
+    url: "crazy-cash-needs-to-pay-rent",
+    main: {
+      title: "Crazy Cash! Needs to Pay Rent",
+      subtitle: "Environment Programming & Systems Programming",
+      body: "Fast-paced dungeon crawler built in MSU's MI 445. Help Cash scrounge up rent money in 7 in-game days by exploring trap-filled, randomly generated dungeons under constant time pressure."
     },
+    sections: [
+      {
+        images: ["/images/Crazy Cash/technical-1.png", "/images/Crazy Cash/generation-example.gif"],
+        heading: "Auto-Generating Level System",
+        body: "I implemented a procedural level generation system that constructs dungeons as a linked sequence of rooms, where each room is instantiated, aligned, and connected to its predecessor. Early versions of the system used more freeform placement, which caused rooms to collide or overlap in world space and made layouts unreliable. By switching to a chained generation approach, each room is positioned relative to the previous one and aligned before generation continues, preventing collisions and ensuring valid traversal.<br><br>In addition to the main path, the system supports optional side rooms that branch off from primary rooms. When spawning a side room, the generator evaluates which side of the room it can safely attach to, ensuring the new room does not clip into rooms generated above or below in the chain. This logic allows side content to be introduced without breaking spatial consistency, while still preserving controlled progression, predictable pacing beats such as exit and final rooms, and replayable layouts with tight encounter flow."
+      },
+      {
+        images: ["/images/Crazy Cash/technical-2.png"],
+        heading: "Day-Based Game Loop",
+        body: "I built the day-based game loop that drives progression over 7 in-game days, tying exploration, resource pressure, and risk-reward decisions into the core structure of each run. Each day advances the global game state and pushes the player closer to a hard end condition, forcing meaningful tradeoffs between short-term gains and long-term survival. By enforcing a fixed timeline, the system creates natural tension, reinforces pacing, and gives player choices lasting consequences across the entire run."
+      }
+    ]
+  },
 
-    "Maybe Mayhem": {
-        url: "maybe-mayhem",
-        main: {
-            title: "Maybe Mayhem",
-            subtitle: "Animation · Ragdoll · Level Design · Player Controls",
-            body: "Slapstick physics game with ragdolls, expressive animation, and playful level design. I handled player controls, ragdoll setups, and sandboxes for goofy emergent behavior."
-        },
-        sections: [
-            {
-                images: ["/images/Maybe Mayhem/img2.png"],
-                heading: "Ragdoll & Animation",
-                body: "Hooked up ragdoll logic with animation states so characters smoothly transition from controlled movement into ridiculous physics-driven chaos."
-            }
-        ]
-    }
+  "Maybe Mayhem": {
+    url: "maybe-mayhem",
+    main: {
+      title: "Maybe Mayhem",
+      subtitle: "Animation · Ragdoll · Level Design · Player Controls",
+      body: "Project made during the Spartasoft February 2024 Game Jam. Slapstick physics game centered on expressive animation, ragdolls, and obstacle-driven levels. Winner of the \"Best Level Design\" award for the jam."
+    },
+    sections: [
+      {
+        images: ["/images/Maybe Mayhem/technical-2.png"],
+        heading: "Player Controls and Ragdoll",
+        body: "I built the player movement system and tightly integrated it with a physics-driven ragdoll pipeline, allowing the character to switch cleanly between precise player control and fully simulated chaos. When ragdolling is triggered, I disable animation and player input, transfer the character’s current velocity into the ragdoll rigidbodies, and re-enable full physics so momentum carries through naturally. Jump behavior uses variable gravity scaling to support both short hops and full jumps, keeping movement responsive while still letting unexpected physics interactions take over. This balance ensures physics moments feel funny and emergent without ever breaking readability or player control."
+      },
+      {
+        images: ["/images/Maybe Mayhem/technical-3.png"],
+        heading: "Level Design",
+        body: "I handled level design for the first and third levels, focusing on clear, readable obstacle setups that teach mechanics through play while steadily increasing pressure. Early sections emphasize momentum and timing, introducing moving hazards and spacing that reward confident movement, while later sections layer obstacles together to force quick decision-making and improvisation. The layouts are built to feel fair but punishing, encouraging players to fully commit to their actions."
+      }
+    ]
+  }
 };
+
 
 
 /* -------------------------------------------------------
@@ -404,19 +423,30 @@ function setupProjectDetailView() {
         }
 
         const OVERLAY_FADE_DURATION = 350;
+        const GRID_FADE_DURATION = 250;
+
+        // 1. Start fading overlay out
         portfolio.classList.remove("detail-overlay-visible");
 
         setTimeout(() => {
-            overlay.style.display = "none";
+            // 2. Put grid BACK into faded state
+            portfolio.classList.add("detail-grid-fading");
             portfolio.classList.remove("detail-grid-hidden");
 
             requestAnimationFrame(() => {
+                // 3. Fade grid in
                 portfolio.classList.remove("detail-grid-fading");
-                detailOpen = false;
-                activeKey = null;
+
+                // 4. After grid fade finishes, fully hide overlay
+                setTimeout(() => {
+                    overlay.style.display = "none";
+                    detailOpen = false;
+                    activeKey = null;
+                }, GRID_FADE_DURATION);
             });
         }, OVERLAY_FADE_DURATION);
     }
+
 
     function buildDetailGrid(card, key) {
         const grid = overlay.querySelector(".project-detail-grid");
@@ -433,6 +463,42 @@ function setupProjectDetailView() {
         const mainText = document.createElement("div");
         mainText.className = "detail-row-text";
 
+        const titleSlot = document.createElement("div");
+        titleSlot.className = "detail-row-title";
+
+        // TITLE
+        if (content.titleImage) {
+            const img = document.createElement("img");
+            img.src = content.titleImage;
+            img.alt = content.main.title;
+            img.className = "detail-title-image";
+
+            img.dataset.strength = "0.12";
+            img.dataset.speed = "0.9";
+
+            titleSlot.appendChild(img);
+            mainRow.appendChild(titleSlot); // grid-area: title
+        } else {
+            const h = document.createElement("h3");
+            h.className = "detail-row-heading detail-row-heading-main";
+            h.textContent = content.main.title;
+            mainText.appendChild(h);
+        }
+
+        // SUBTITLE + BODY
+        if (content.main.subtitle) {
+            const sub = document.createElement("p");
+            sub.className = "detail-row-subheading detail-row-subheading-main";
+            sub.textContent = content.main.subtitle;
+            mainText.appendChild(sub);
+        }
+
+        const body = document.createElement("p");
+        body.className = "detail-row-body detail-row-body-main";
+        body.innerHTML = content.main.body;
+        mainText.appendChild(body);
+
+        // MAIN IMAGE (copied from project card)
         const sourceWrapper =
             card.querySelector(".project-img-wrapper") ||
             card.querySelector(".cycle-img") ||
@@ -450,7 +516,6 @@ function setupProjectDetailView() {
             speed = sourceWrapper.dataset.speed || "0.8";
         }
 
-        // MAIN IMAGE
         if (imagesAttr) {
             const overlayImg = document.createElement("img");
             overlayImg.className = "project-img floating cycle-img clickable-img";
@@ -470,21 +535,7 @@ function setupProjectDetailView() {
             mainMedia.appendChild(overlayImg);
         }
 
-        const h = document.createElement("h3");
-        h.className = "detail-row-heading detail-row-heading-main";
-        h.textContent = content.main.title;
 
-        const sub = document.createElement("p");
-        sub.className = "detail-row-subheading";
-        sub.textContent = content.main.subtitle;
-
-        const body = document.createElement("p");
-        body.className = "detail-row-body";
-        body.innerHTML = content.main.body;
-
-        mainText.appendChild(h);
-        if (content.main.subtitle) mainText.appendChild(sub);
-        mainText.appendChild(body);
 
         mainRow.appendChild(mainMedia);
         mainRow.appendChild(mainText);
@@ -591,8 +642,6 @@ function setupProjectDetailView() {
         buildDetailGrid(card, key);
         overlay.style.display = "block";
 
-        const GRID_FADE_DURATION = 250;
-
         if (isSwitching) {
             portfolio.classList.add("detail-overlay-visible");
             detailOpen = true;
@@ -600,12 +649,14 @@ function setupProjectDetailView() {
             return;
         }
 
+        const GRID_HIDE_DELAY = 300;
+
         portfolio.classList.add("detail-grid-fading");
 
         setTimeout(() => {
             portfolio.classList.add("detail-grid-hidden");
             portfolio.classList.add("detail-overlay-visible");
-        }, GRID_FADE_DURATION);
+        }, GRID_HIDE_DELAY);
 
         detailOpen = true;
         activeKey = key;

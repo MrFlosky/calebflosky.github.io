@@ -451,10 +451,46 @@ body {
     align-items: stretch; /* forces equal height columns */
 }
 
+/* ===== MAIN DETAIL TITLE ABOVE IMAGE ===== */
+
+/* MAIN HERO ROW — DESKTOP */
+.project-detail-grid .detail-row:first-child {
+    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
+    grid-template-areas:
+        "media title"
+        "media text";
+}
+
+/* HERO: don't stretch row height and don't vertically center the text */
+.project-detail-grid .detail-row:first-child {
+    align-items: start; /* overrides the .detail-row stretch */
+}
+
+.project-detail-grid .detail-row:first-child .detail-row-text {
+    justify-content: flex-start; /* stops big centered block look */
+}
+
+/* Center the title inside its grid cell (desktop) */
+.project-detail-grid .detail-row:first-child .detail-row-title {
+    display: flex;
+    align-items: center;      /* vertical */
+    justify-content: center;  /* horizontal */
+    width: 100%;
+}
+
+/* make the logo behave like a centered block */
+.project-detail-grid .detail-row:first-child .detail-row-title .detail-title-image {
+    display: block;
+    margin: 0 auto;
+}
+
+
+
 /* Image left / text right */
-.detail-row--image-left {
+.detail-row--image-left:not(:first-child) {
     grid-template-areas: "media text";
 }
+
 
 /* Image right / text left */
 .detail-row--image-right {
@@ -470,8 +506,15 @@ body {
     align-items: center;      /* horizontal center */
 }
 
+.detail-row-title {
+    grid-area: title;
+}
+
 .detail-row-media img {
     width: 100%;
+    height: auto;
+    max-height: 60vh;        /* stops the hero image from looking tiny */
+    object-fit: contain;     /* keeps full image visible */
     display: block;
     border-radius: 0.5rem;
     box-shadow: 0 0 2.2rem rgba(0,0,0,0.55);
@@ -635,29 +678,60 @@ body {
         letter-spacing: 0.08rem;
     }
 
-    /* On small screens, make each detail row a single column stack */
-    .detail-row {
+    /* DEFAULT MOBILE: IMAGE(S) -> TEXT */
+    .project-detail-grid .detail-row {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "media"
+            "text";
+        row-gap: 0.75rem;
+    }
+
+    /* HERO MOBILE: TITLE (image) -> IMAGE(S) -> TEXT */
+    .project-detail-grid .detail-row:first-child {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "title"
+            "media"
+            "text";
+        row-gap: 1.5rem;
+    }
+
+    /* FORCE LEFT/RIGHT VARIANTS TO ALSO BE IMAGE -> TEXT ON MOBILE */
+    .project-detail-grid .detail-row--image-right,
+    .project-detail-grid .detail-row--image-left:not(:first-child) {
         grid-template-columns: 1fr;
         grid-template-areas:
             "media"
             "text";
     }
 
-    .detail-row-media,
-    .detail-row-text {
-        flex: 1 1 100%;
-    }
-
-    /* Add breathing room between image(s) and text */
-    .detail-row {
-        row-gap: 4.75rem; /* adjust to taste: 1.25rem–2.25rem */
-    }
-
-    /* Optional: slightly separate stacked images from text visually */
     .detail-row-text {
         padding-top: 0.5rem;
     }
+
+    /* HERO MOBILE: make Spell Forge title image bigger */
+    .project-detail-grid .detail-row:first-child .detail-title-image {
+        max-width: min(92vw, 520px);
+        width: 100%;
+        height: auto;
+        margin: 0 auto 0.75rem;
+    }
+
+    /* MOBILE: make all detail images slightly smaller */
+    .project-detail-grid .detail-row-media img {
+        width: 92%;
+        max-width: 92%;
+        height: auto;
+    }
+
+    /* MOBILE: if a row has stacked multi-images, keep them aligned with the same smaller width */
+    .detail-row-media.multi-image-column img {
+        width: 92% !important;
+        max-width: 92% !important;
+    }
 }
+
 
 /* Extra tiny screens */
 @media (max-width: 480px) {
@@ -679,14 +753,13 @@ body {
 }
 
 .detail-row-subheading-main {
-    font-size: clamp(1.3rem, 1.0rem + 1.0vw, 2.0rem);
-    font-weight: 600;
+    font-size: clamp(0.85rem, 0.78rem + 0.25vw, 1.05rem);
 }
 
 .detail-row-body-main {
-    font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
-    line-height: 1.7;
+    font-size: clamp(0.8rem, 0.75rem + 0.2vw, 0.95rem);
 }
+
 
 /* Secondary rows (all rows after the first) a bit smaller */
 .project-detail-grid .detail-row + .detail-row .detail-row-heading {
@@ -752,15 +825,27 @@ body {
     justify-content: center !important; /* center vertically */
 }
 
-/* Make images full width inside the centered column */
+.detail-row-media.multi-image-column {
+    align-items: stretch !important;
+}
+
+.first-image-row {
+    width: 100%;
+}
+
 .detail-row-media.multi-image-column img {
     width: 100%;
     max-width: 100%;
     height: auto;
 
+    max-height: none;     /* <-- THIS fixes the “gif wider” issue */
+    object-fit: initial;  /* optional */
+
     border-radius: 0.5rem;
     box-shadow: 0 0 1.8rem rgba(0,0,0,0.55);
+    display: block;
 }
+
 
 /* Secondary rows should align from top */
 .detail-row--secondary {
@@ -783,4 +868,82 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.detail-title-image{
+    width: 100%;
+    max-width: 45%;
+    height: auto;
+    display: block;
+    margin: 0 auto 1.5rem;
+}
+
+/* Tighten image ↔ text relationship on mobile */
+@media (max-width: 700px) {
+
+    /* center the media column itself */
+    .detail-row-media {
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* center each stacked image (multi-image rows) */
+    .detail-row-media.multi-image-column {
+        align-items: center !important;   /* override your 'stretch' */
+    }
+
+    /* make sure the 92% images are centered */
+    .project-detail-grid .detail-row-media img,
+    .detail-row-media.multi-image-column img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Remove top margins that push text away from images */
+    .detail-row-text h1,
+    .detail-row-text h2,
+    .detail-row-text h3,
+    .detail-row-text h4 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    /* Big section separation, but keeps image + text together */
+    .project-detail-grid .detail-row + .detail-row {
+        margin-top: 10vh;
+    }
+
+    /* MOBILE: put heading (and subheading) ABOVE the images (secondary rows only) */
+    .project-detail-grid .detail-row:not(:first-child) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "heading"
+            "sub"
+            "media"
+            "text";
+        row-gap: 0.6rem;
+    }
+
+    /* unwrap wrappers so heading/body become real grid items */
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-text,
+    .project-detail-grid .detail-row:not(:first-child) .detail-text-inner {
+        display: contents;
+    }
+
+    /* map your pieces into the new areas */
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-heading { grid-area: heading; }
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-subheading { grid-area: sub; }
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-body { grid-area: text; }
+
+    /* tighten margins so it actually sits close */
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-heading,
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-subheading {
+        margin: 0;
+    }
+
+    .project-detail-grid .detail-row:not(:first-child) .detail-row-body {
+        margin: 0;
+    }
+
 }
