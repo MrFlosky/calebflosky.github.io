@@ -69,6 +69,39 @@ body {
     }
 }
 
+/* =========================================
+   HEADER: stop links from squishing/bunching
+========================================= */
+
+/* Don’t let flex items shrink into each other */
+#header a {
+    flex-shrink: 0;
+}
+
+/* Mobile: tighten spacing + use a safer font sizing */
+@media (max-width: 700px) {
+    #header {
+        gap: 1.2vw;           /* was 2vw */
+        padding: 0 3vw;       /* gives breathing room */
+        justify-content: space-between;
+    }
+
+    .header-text {
+        font-size: clamp(12px, 3.8vw, 16px); /* replaces big vmin scaling */
+    }
+}
+
+/* Super small phones: allow wrap instead of crushing */
+@media (max-width: 420px) {
+    #header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 1vh 3vw;
+        row-gap: 0.75vh;
+    }
+}
+
+
 /* ---------------- NAME TITLE ---------------- */
 
 #name {
@@ -574,11 +607,56 @@ body {
    Nav Buttons
 ============================ */
 
+/* Nav row: left (auto) | center (flex space) | right (auto) */
 .portfolio-nav-row {
-    display: flex;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* <-- key change */
+    align-items: center;
     gap: 0.75rem;
 }
+
+/* Put the itch link on the left */
+.portfolio-nav-row .detail-itch-link {
+    grid-column: 1;
+    justify-self: start;
+}
+
+/* Put the button cluster on the right */
+.portfolio-nav-row .portfolio-nav-right {
+    grid-column: 3;
+    justify-self: end;
+
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    flex-wrap: wrap;          /* allows wrapping instead of squishing */
+}
+
+/* Itch link styling */
+.detail-itch-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: Calibri;
+    font-size: 0.95rem;
+    opacity: 0.95;
+}
+
+.detail-itch-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* Bottom centered version: icon on top, text below */
+.detail-itch-link--stack {
+    flex-direction: column;
+    gap: 0.35rem;
+    text-align: center;
+}
+
 
 /* Make About / Resume match Back to Projects exactly */
 .portfolio-nav-btn {
@@ -947,3 +1025,49 @@ body {
     }
 
 }
+
+.detail-row-title {
+    display: flex;
+    align-items: center;
+    gap: 1.2vmin;
+}
+
+.itchio-detail-icon {
+    height: 4.2vmin;
+    width: auto;
+    max-height: 48px;
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+
+  /* Top nav row: behave like bottom row */
+  .portfolio-overlay-inner .portfolio-nav-row:first-of-type {
+    grid-template-columns: auto 1fr auto;
+    column-gap: 0.75rem;
+  }
+
+  /* Prevent itch link text from shrinking */
+  .portfolio-overlay-inner .portfolio-nav-row:first-of-type .detail-itch-link {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+
+  /* Give buttons room instead of squeezing */
+  .portfolio-overlay-inner .portfolio-nav-row:first-of-type .portfolio-nav-right {
+    display: flex;
+    flex-wrap: wrap;        /* same as bottom */
+    justify-content: flex-end;
+    gap: 0.5rem;
+    min-width: max-content; /* ← KEY LINE */
+  }
+
+  /* Match button sizing */
+  .portfolio-overlay-inner .portfolio-nav-btn {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.7rem;
+    white-space: nowrap;
+  }
+}
+

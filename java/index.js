@@ -14,6 +14,7 @@ const TEXT_FLOAT_INTENSITY = 0.35;
 const PROJECT_CONTENT = {
   "Spell Forge": {
     url: "spell-forge",
+    itchLink: "https://caleb-flosky.itch.io/spell-forge",
     titleImage: "/images/Spell Forge/SpellForge-Logo.png",
     main: {
       title: "Spell Forge",
@@ -41,9 +42,10 @@ const PROJECT_CONTENT = {
 
   "Miskatonic": {
     url: "miskatonic",
+    itchLink: "https://caleb-flosky.itch.io/miskatonic",
     main: {
       title: "Miskatonic",
-      subtitle: "AI · Camera & Dialogue · Maze Generation · Player Programming",
+      subtitle: "Gameplay & Systems Programming",
       body: "Project made in MSU's MI 445 Game Design and Development I. You play as an ancient entity, Labgoroth, manipulating human psyches to cultivate fear. As the AI-controlled humans attempt to flee, your goal is to amplify their terror until Labgoroth fully manifests once fear reaches its peak."
     },
     sections: [
@@ -62,9 +64,10 @@ const PROJECT_CONTENT = {
 
   "Marble Game": {
     url: "marble-game",
+    itchLink: "https://caleb-flosky.itch.io/marble-game",
     main: {
       title: "Marble Game",
-      subtitle: "Networking Programming & Systems Programming",
+      subtitle: "Networking & Systems Programming",
       body: "Multiplayer zombie tag experience designed for planetarium projection. Players join using their phones as one becomes the zombie and others try to avoid infection until only one remains."
     },
     sections: [
@@ -83,9 +86,10 @@ const PROJECT_CONTENT = {
 
   "Crazy Cash! Needs to Pay Rent": {
     url: "crazy-cash-needs-to-pay-rent",
+    itchLink: "https://willfff.itch.io/crazy-cash-needs-to-pay-rent",
     main: {
       title: "Crazy Cash! Needs to Pay Rent",
-      subtitle: "Environment Programming & Systems Programming",
+      subtitle: "Environment & Systems Programming",
       body: "Fast-paced dungeon crawler built in MSU's MI 445. Help Cash scrounge up rent money in 7 in-game days by exploring trap-filled, randomly generated dungeons under constant time pressure."
     },
     sections: [
@@ -104,9 +108,10 @@ const PROJECT_CONTENT = {
 
   "Maybe Mayhem": {
     url: "maybe-mayhem",
+    itchLink: "https://caleb-flosky.itch.io/maybe-mayhem",
     main: {
       title: "Maybe Mayhem",
-      subtitle: "Animation · Ragdoll · Level Design · Player Controls",
+      subtitle: "Gameplay Programming & Level Design",
       body: "Project made during the Spartasoft February 2024 Game Jam. Slapstick physics game centered on expressive animation, ragdolls, and obstacle-driven levels. Winner of the \"Best Level Design\" award for the jam."
     },
     sections: [
@@ -377,30 +382,58 @@ function setupProjectDetailView() {
         overlayEl = document.createElement("div");
         overlayEl.className = "portfolio-overlay";
         overlayEl.innerHTML = `
-            <div class="portfolio-overlay-inner">
+        <div class="portfolio-overlay-inner">
 
-                <!-- TOP BUTTON ROW -->
-                <div class="portfolio-nav-row">
-                    <a href="about.html" class="portfolio-nav-btn">About Me</a>
-                    <a href="resume.html" class="portfolio-nav-btn">Resume</a>
-                    <button type="button" class="portfolio-overlay-close">
-                        ← Back to projects
-                    </button>
+            <!-- TOP ROW: left itch, right buttons -->
+            <div class="portfolio-nav-row">
+
+                <div class="portfolio-nav-left">
+                    <a class="detail-itch-link" href="#" target="_blank" rel="noopener noreferrer" title="Play on Itch.io">
+                        <img src="/images/itchio.png"
+                            class="itchio-detail-icon floating"
+                            data-strength="0.7"
+                            data-speed="2.0">
+                        <span>Play on Itch</span>
+                    </a>
                 </div>
 
-                <!-- Detail grid content is inserted here -->
-                <div class="project-detail-grid"></div>
+                <div class="portfolio-nav-center"></div>
 
-                <!-- BOTTOM BACK BUTTON -->
-                <div class="portfolio-nav-row">
+                <div class="portfolio-nav-right">
                     <a href="about.html" class="portfolio-nav-btn">About Me</a>
                     <a href="resume.html" class="portfolio-nav-btn">Resume</a>
-                    <button type="button" class="portfolio-overlay-close">
-                        ← Back to projects
-                    </button>
+                    <button type="button" class="portfolio-overlay-close">← Back to projects</button>
                 </div>
 
             </div>
+
+            <!-- Detail grid content is inserted here -->
+            <div class="project-detail-grid"></div>
+
+            <!-- BOTTOM ROW: center itch (text underneath), right buttons -->
+            <div class="portfolio-nav-row">
+
+                <div class="portfolio-nav-left"></div>
+
+                <div class="portfolio-nav-center">
+                    <a class="detail-itch-link detail-itch-link--stack" href="#" target="_blank" rel="noopener noreferrer" title="Play on Itch.io">
+                        <img src="/images/itchio.png"
+                            class="itchio-detail-icon floating"
+                            data-strength="0.7"
+                            data-speed="2.0">
+                        <span>Play on Itch</span>
+                    </a>
+                </div>
+
+                <div class="portfolio-nav-right">
+                    <a href="about.html" class="portfolio-nav-btn">About Me</a>
+                    <a href="resume.html" class="portfolio-nav-btn">Resume</a>
+                    <button type="button" class="portfolio-overlay-close">← Back to projects</button>
+                </div>
+
+            </div>
+
+        </div>
         `;
 
     portfolioEl.appendChild(overlayEl);
@@ -454,6 +487,17 @@ function setupProjectDetailView() {
 
         const content = PROJECT_CONTENT[key];
 
+        // Update the top-left + bottom-left itch links
+        overlay.querySelectorAll(".detail-itch-link").forEach(a => {
+            if (content.itchLink) {
+                a.href = content.itchLink;
+                a.style.display = "inline-flex";
+            } else {
+                a.style.display = "none";
+            }
+        });
+
+
         const mainRow = document.createElement("div");
         mainRow.className = "detail-row detail-row--image-left";
 
@@ -466,7 +510,7 @@ function setupProjectDetailView() {
         const titleSlot = document.createElement("div");
         titleSlot.className = "detail-row-title";
 
-        // TITLE
+        // TITLE IMAGE OR TEXT
         if (content.titleImage) {
             const img = document.createElement("img");
             img.src = content.titleImage;
@@ -477,13 +521,17 @@ function setupProjectDetailView() {
             img.dataset.speed = "0.9";
 
             titleSlot.appendChild(img);
-            mainRow.appendChild(titleSlot); // grid-area: title
         } else {
             const h = document.createElement("h3");
             h.className = "detail-row-heading detail-row-heading-main";
             h.textContent = content.main.title;
-            mainText.appendChild(h);
+            titleSlot.appendChild(h);
         }
+        
+        // append ONCE
+        mainRow.appendChild(titleSlot);
+
+
 
         // SUBTITLE + BODY
         if (content.main.subtitle) {
