@@ -1,0 +1,63 @@
+/* =======================================================
+   GLOBAL LIGHTBOX (BACKGROUND + ANIMATION)
+======================================================= */
+
+.img-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.img-lightbox.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* =======================================================
+   LIGHTBOX IMAGE (NORMAL STATE)
+======================================================= */
+.img-lightbox img {
+    max-width: 90%;
+    max-height: 85%;
+    border-radius: 0.75rem;
+    box-shadow: 0 0 2rem rgba(0,0,0,0.6);
+
+    cursor: zoom-in;
+    transition: transform 0.25s ease;
+    transform-origin: center center; /* JS controls transform itself */
+}
+
+/* =======================================================
+   LIGHTBOX IMAGE (ZOOMED STATE)
+   (CSS only changes cursor; JS handles transform)
+======================================================= */
+.img-lightbox img.zoomed {
+    cursor: grab;
+}
+
+.img-lightbox img.zoomed:active {
+    cursor: grabbing;
+}
+
+
+/* =======================================================
+   THUMBNAIL HOVER EFFECT
+======================================================= */
+.clickable-img {
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.clickable-img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 1rem rgba(255,255,255,0.3);
+}

@@ -111,7 +111,6 @@ const PROJECT_CONTENT = {
 ------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
     initializeImageCycling();
-
     document.querySelectorAll(".floating").forEach(el => {
         el._floatIntensity = el.dataset.strength ? parseFloat(el.dataset.strength) : 1.5;
         el._floatSpeed = el.dataset.speed ? parseFloat(el.dataset.speed) : 1.0;
@@ -121,7 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".header-text").forEach(link => {
         link._floatIntensity = TEXT_FLOAT_INTENSITY;
         link._floatSpeed = link.dataset.speed ? parseFloat(link.dataset.speed) : 1.0;
-
         link.addEventListener("mouseenter", () => startRandomFloat(link));
         link.addEventListener("mouseleave", () => stopFloating(link));
     });
@@ -130,8 +128,27 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* -------------------------------------------------------
-   FLOATING ENGINE
+   REFRESH LIGHTBOX CLICK BINDINGS (NEW)
 ------------------------------------------------------- */
+function refreshLightboxBindings() {
+    const lightbox = document.getElementById("global-lightbox");
+    const lightboxImg = document.getElementById("global-lightbox-img");
+
+    document.querySelectorAll(".clickable-img").forEach(img => {
+        if (!img._lightboxBound) {
+            img.addEventListener("click", () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.add("visible");
+            });
+            img._lightboxBound = true;
+        }
+    });
+}
+
+/* -------------------------------------------------------
+   FLOATING ENGINE (UNCHANGED)
+------------------------------------------------------- */
+
 function stopFloating(el) {
     el._stopFloating = true;
     el.style.transition = "transform 0.35s ease-out";
@@ -201,10 +218,12 @@ function startRandomFloat(el) {
             targetX = (moveDirX === 1 ? rand(0.2, 0.7) : rand(-0.7, -0.2)) * intensity;
             targetY = (moveDirY === 1 ? rand(0.2, 0.7) : rand(-0.7, -0.2)) * intensity;
         }
+
         tMove += (1 / 60) / durMove;
 
         const curX = lerp(x, targetX, smoothstep(Math.min(1, tMove)));
         const curY = lerp(y, targetY, smoothstep(Math.min(1, tMove)));
+
         if (tMove >= 1) {
             x = targetX;
             y = targetY;
@@ -220,7 +239,7 @@ function startRandomFloat(el) {
 }
 
 /* -------------------------------------------------------
-   IMAGE CYCLING ENGINE
+   IMAGE CYCLING ENGINE (UNCHANGED)
 ------------------------------------------------------- */
 function initializeImageCycling() {
     const imgs = Array.from(document.querySelectorAll(".cycle-img"));
@@ -267,14 +286,10 @@ function initializeImageCycling() {
         const floatWrapper = document.createElement("div");
         floatWrapper.className = "project-img-wrapper floating";
 
-        if (originalImg.dataset.strength)
-            floatWrapper.dataset.strength = originalImg.dataset.strength;
-        if (originalImg.dataset.speed)
-            floatWrapper.dataset.speed = originalImg.dataset.speed;
-        if (originalImg.dataset.images)
-            floatWrapper.dataset.images = originalImg.dataset.images;
-        if (originalImg.dataset.index)
-            floatWrapper.dataset.index = originalImg.dataset.index;
+        floatWrapper.dataset.images = originalImg.dataset.images;
+        floatWrapper.dataset.index = originalImg.dataset.index;
+        floatWrapper.dataset.strength = originalImg.dataset.strength;
+        floatWrapper.dataset.speed = originalImg.dataset.speed;
 
         floatWrapper.appendChild(mask);
 
@@ -310,7 +325,7 @@ function initializeImageCycling() {
 }
 
 /* =======================================================
-   PROJECT DETAIL VIEW + URL State Support (using ?project=)
+   PROJECT DETAIL VIEW (UPDATED WITH CLICKABLE IMAGES)
 ======================================================= */
 
 function setupProjectDetailView() {
@@ -321,12 +336,10 @@ function setupProjectDetailView() {
     let detailOpen = false;
     let activeKey = null;
 
-    // Read project name from ?project= param
     function getProjectFromURL() {
         const params = new URLSearchParams(window.location.search);
         const projectURL = params.get("project");
         if (!projectURL) return null;
-
         const lower = projectURL.toLowerCase();
 
         return Object.keys(PROJECT_CONTENT).find(key => {
@@ -334,9 +347,6 @@ function setupProjectDetailView() {
             return content.url && content.url.toLowerCase() === lower;
         }) || null;
     }
-
-
-
 
     const overlay = createOverlay(portfolio);
 
@@ -348,12 +358,33 @@ function setupProjectDetailView() {
         overlayEl.className = "portfolio-overlay";
         overlayEl.innerHTML = `
             <div class="portfolio-overlay-inner">
-                <button type="button" class="portfolio-overlay-close">← Back to projects</button>
+
+                <!-- TOP BUTTON ROW -->
+                <div class="portfolio-nav-row">
+                    <a href="about.html" class="portfolio-nav-btn">About Me</a>
+                    <a href="resume.html" class="portfolio-nav-btn">Resume</a>
+                    <button type="button" class="portfolio-overlay-close">
+                        ← Back to projects
+                    </button>
+                </div>
+
+                <!-- Detail grid content is inserted here -->
                 <div class="project-detail-grid"></div>
-                <button type="button" class="portfolio-overlay-close portfolio-overlay-close-bottom">← Back to projects</button>
+
+                <!-- BOTTOM BACK BUTTON -->
+                <div class="portfolio-nav-row">
+                    <a href="about.html" class="portfolio-nav-btn">About Me</a>
+                    <a href="resume.html" class="portfolio-nav-btn">Resume</a>
+                    <button type="button" class="portfolio-overlay-close">
+                        ← Back to projects
+                    </button>
+                </div>
+
             </div>
         `;
-        portfolioEl.appendChild(overlayEl);
+
+    portfolioEl.appendChild(overlayEl);
+
 
         overlayEl.style.display = "none";
 
@@ -365,7 +396,6 @@ function setupProjectDetailView() {
     }
 
     function closeDetail({ updateHistory }) {
-        // Only push a new history entry when user actively closes
         if (updateHistory) {
             const url = new URL(window.location.href);
             url.searchParams.delete("project");
@@ -373,17 +403,14 @@ function setupProjectDetailView() {
         }
 
         const OVERLAY_FADE_DURATION = 350;
-
         portfolio.classList.remove("detail-overlay-visible");
 
         setTimeout(() => {
             overlay.style.display = "none";
-
             portfolio.classList.remove("detail-grid-hidden");
 
             requestAnimationFrame(() => {
                 portfolio.classList.remove("detail-grid-fading");
-
                 detailOpen = false;
                 activeKey = null;
             });
@@ -394,14 +421,7 @@ function setupProjectDetailView() {
         const grid = overlay.querySelector(".project-detail-grid");
         grid.innerHTML = "";
 
-        const content = PROJECT_CONTENT[key] || {
-            main: {
-                title: key || "Project",
-                subtitle: card.querySelector("p")?.textContent.trim() || "",
-                body: "More details coming soon."
-            },
-            sections: []
-        };
+        const content = PROJECT_CONTENT[key];
 
         const mainRow = document.createElement("div");
         mainRow.className = "detail-row detail-row--image-left";
@@ -423,35 +443,29 @@ function setupProjectDetailView() {
         let speed = "0.8";
 
         if (sourceWrapper) {
-            if (sourceWrapper.dataset.images)
-                imagesAttr = sourceWrapper.dataset.images;
-            if (sourceWrapper.dataset.index)
-                startIndex = sourceWrapper.dataset.index;
-            if (sourceWrapper.dataset.strength)
-                strength = sourceWrapper.dataset.strength;
-            if (sourceWrapper.dataset.speed)
-                speed = sourceWrapper.dataset.speed;
+            imagesAttr = sourceWrapper.dataset.images || "";
+            startIndex = sourceWrapper.dataset.index || "0";
+            strength = sourceWrapper.dataset.strength || "0.08";
+            speed = sourceWrapper.dataset.speed || "0.8";
         }
 
+        // MAIN IMAGE
         if (imagesAttr) {
             const overlayImg = document.createElement("img");
-            overlayImg.className = "project-img floating cycle-img";
+            overlayImg.className = "project-img floating cycle-img clickable-img";
             overlayImg.dataset.images = imagesAttr;
             overlayImg.dataset.index = startIndex;
             overlayImg.dataset.strength = strength;
             overlayImg.dataset.speed = speed;
 
-            const firstFrame = imagesAttr.split(",")[0].trim();
-            overlayImg.src = firstFrame;
-
+            overlayImg.src = imagesAttr.split(",")[0].trim();
             mainMedia.appendChild(overlayImg);
+
         } else if (sourceWrapper) {
             const innerImg = sourceWrapper.querySelector("img") || sourceWrapper;
             const overlayImg = document.createElement("img");
-            overlayImg.className = "project-img floating";
+            overlayImg.className = "project-img floating clickable-img";
             overlayImg.src = innerImg.src;
-            overlayImg.dataset.strength = strength;
-            overlayImg.dataset.speed = speed;
             mainMedia.appendChild(overlayImg);
         }
 
@@ -461,11 +475,11 @@ function setupProjectDetailView() {
 
         const sub = document.createElement("p");
         sub.className = "detail-row-subheading";
-        sub.textContent = content.main.subtitle || "";
+        sub.textContent = content.main.subtitle;
 
         const body = document.createElement("p");
         body.className = "detail-row-body";
-        body.innerHTML = content.main.body || "";
+        body.innerHTML = content.main.body;
 
         mainText.appendChild(h);
         if (content.main.subtitle) mainText.appendChild(sub);
@@ -475,6 +489,7 @@ function setupProjectDetailView() {
         mainRow.appendChild(mainText);
         grid.appendChild(mainRow);
 
+        // SECTION IMAGES
         (content.sections || []).forEach((section, idx) => {
             const row = document.createElement("div");
             const rowIndex = idx + 1;
@@ -492,7 +507,7 @@ function setupProjectDetailView() {
 
             if (section.image) {
                 const secImg = document.createElement("img");
-                secImg.className = "project-img";
+                secImg.className = "project-img clickable-img";
                 secImg.src = section.image;
                 media.appendChild(secImg);
             }
@@ -502,13 +517,6 @@ function setupProjectDetailView() {
                 secHead.className = "detail-row-heading";
                 secHead.textContent = section.heading;
                 text.appendChild(secHead);
-            }
-
-            if (section.subheading) {
-                const secSub = document.createElement("p");
-                secSub.className = "detail-row-subheading";
-                secSub.textContent = section.subheading;
-                text.appendChild(secSub);
             }
 
             if (section.body) {
@@ -527,33 +535,27 @@ function setupProjectDetailView() {
 
         overlay.querySelectorAll(".floating").forEach(el => {
             if (!el._isFloating) {
-                el._floatIntensity = el.dataset.strength ? parseFloat(el.dataset.strength) : 1.5;
-                el._floatSpeed = el.dataset.speed ? parseFloat(el.dataset.speed) : 1.0;
+                el._floatIntensity = parseFloat(el.dataset.strength) || 1.5;
+                el._floatSpeed = parseFloat(el.dataset.speed) || 1.0;
                 startRandomFloat(el);
             }
         });
+
+        // 🔥 MAKE ALL IMAGES CLICKABLE FOR LIGHTBOX
+        refreshLightboxBindings();
     }
 
-    /**
-     * openDetail
-     * updateHistory = true  → user clicked card (push ?project=...)
-     * updateHistory = false → popstate/init: DOM only
-     */
     function openDetail(card, key, { updateHistory, isSwitching }) {
         if (updateHistory) {
             const urlObj = new URL(window.location.href);
             const content = PROJECT_CONTENT[key];
-
             if (content && content.url) {
                 urlObj.searchParams.set("project", content.url);
                 history.pushState({ project: key }, "", urlObj.toString());
             }
-
         }
 
-
         buildDetailGrid(card, key);
-
         overlay.style.display = "block";
 
         const GRID_FADE_DURATION = 250;
@@ -576,12 +578,12 @@ function setupProjectDetailView() {
         activeKey = key;
     }
 
-    // CLICK HANDLERS
+    // CARD CLICK HANDLERS
     rows.forEach(row => {
         row.querySelectorAll(".project-simple").forEach(card => {
             card.addEventListener("click", () => {
                 const titleEl = card.querySelector("h3");
-                const key = titleEl ? titleEl.textContent.trim() : "";
+                const key = titleEl.textContent.trim();
 
                 if (!detailOpen) {
                     openDetail(card, key, { updateHistory: true, isSwitching: false });
@@ -598,35 +600,27 @@ function setupProjectDetailView() {
         });
     });
 
-    // BACK/FORWARD BUTTON SUPPORT
     window.addEventListener("popstate", () => {
         const project = getProjectFromURL();
-
-        // No project in URL → show grid, hide overlay, but DO NOT pushState
         if (!project) {
-            if (detailOpen) {
-                closeDetail({ updateHistory: false });
-            }
+            if (detailOpen) closeDetail({ updateHistory: false });
             return;
         }
 
-        // Project in URL → open that detail, but DO NOT pushState
         const card = Array.from(document.querySelectorAll(".project-simple"))
-            .find(c => c.querySelector("h3")?.textContent.trim().toLowerCase() === project.toLowerCase());
+            .find(c => c.querySelector("h3").textContent.trim().toLowerCase() === project.toLowerCase());
 
         if (card) {
             openDetail(card, project, { updateHistory: false, isSwitching: detailOpen });
         }
     });
 
-    // AUTO-OPEN ON PAGE LOAD IF URL HAS ?project=
     const initial = getProjectFromURL();
     if (initial) {
         const card = Array.from(document.querySelectorAll(".project-simple"))
-            .find(c => c.querySelector("h3")?.textContent.trim().toLowerCase() === initial.toLowerCase());
+            .find(c => c.querySelector("h3").textContent.trim().toLowerCase() === initial.toLowerCase());
 
         if (card) {
-            // First state: whatever URL is already loaded
             history.replaceState({ project: initial }, "", window.location.href);
             openDetail(card, initial, { updateHistory: false, isSwitching: false });
         }
