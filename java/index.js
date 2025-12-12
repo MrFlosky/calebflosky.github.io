@@ -323,18 +323,18 @@ function setupProjectDetailView() {
 
     // Read project name from ?project= param
     function getProjectFromURL() {
-        const path = window.location.pathname;
+        const params = new URLSearchParams(window.location.search);
+        const projectURL = params.get("project");
+        if (!projectURL) return null;
 
-        // Match /project/whatever
-        const match = path.match(/\/project\/([^\/]+)/);
-        if (!match) return null;
-
-        const projectURL = match[1].toLowerCase();
+        const lower = projectURL.toLowerCase();
 
         return Object.keys(PROJECT_CONTENT).find(key => {
-            return PROJECT_CONTENT[key].url.toLowerCase() === projectURL;
+            const content = PROJECT_CONTENT[key];
+            return content.url && content.url.toLowerCase() === lower;
         }) || null;
     }
+
 
 
 
@@ -548,6 +548,7 @@ function setupProjectDetailView() {
                 urlObj.searchParams.set("project", content.url);
                 history.pushState({ project: key }, "", urlObj.toString());
             }
+
         }
 
 
