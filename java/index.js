@@ -19,17 +19,17 @@ const PROJECT_CONTENT = {
         },
         sections: [
             {
-                image: "/images/Spell Forge/technical-1.png",
+                images: ["/images/Spell Forge/technical-1.png","/images/Spell Forge/variety-example.gif"],
                 heading: "Modifying a Projectile's Launch Data",
                 body: "Spellforge's spell system is built around the player's pickups, your base spell, the \"Artifact\", and add-ons called \"Enchantments\". On spell fired, each enchantment directly adds an effect to the projectile fired. Each projectile starts with base stats from its TomeConfig, then it loops through and applies every equipped spell layer to modify those stats or attach new behavior.<br><br>Shown in the function \"ShootTome\", I am looping through each spell in order, which lets different effects stack or interact depending on how the player sets up their loadout. This is what allows the same tome to behave completely differently depending on what the player equips."
             },
             {
-                image: "/images/Spell Forge/technical-2.png",
+                images: ["/images/Spell Forge/technical-2.png","/images/Spell Forge/return-example.gif"],
                 heading: "Individual Enchantment Behavior",
                 body: "All enchantments in Spellforge inherit from a base SpellConfig, which gives each enchantment a consistent set of hooks to modify the projectile at different points in its lifecycle. OnFireSpell is the first one that gets called right when the projectile is fired. For this enchantment, Return, I use that hook to modify the projectile’s lifetime before it even enters flight, letting me time how long it will exist. Once the projectile is spawned and flying, the system begins calling OnSpellFlying every frame.<br><br>For this enchantment, I need access to the ProjectileAge component. ProjectileAge is added to each projectile fired if it comes from an artifact or enchantment that has its Required Age flag enabled. ProjectileAge is updated by a separate system that increments the age of every active projectile, letting projectiles react to how long they have been alive.<br><br>Since Return’s behavior depends on timing, I grab both BaseProjectile and ProjectileAge before doing anything else. The core logic of Return happens at the halfway point of the projectile’s lifetime. When the projectile’s age reaches half of its total lifetime, I mark it as returning, flip its base direction, and update its physics velocity so it cleanly travels back toward its caster. I also trigger an animation event on the player's HUD to show the return happening."
             },
             {
-                image: "/images/Spell Forge/technical-3.png",
+                images: ["/images/Spell Forge/technical-3.png","/images/Spell Forge/shadow-example.gif"],
                 heading: "Modular and Organized Projectile Data",
                 body: "As Spellforge continued to grow with an increasing number of enchantments and artifacts, a recurring issue became clear. The variables required by each projectile had become too large, with most of them redundant to a player's current build. The projectile data model was overloaded with fields that only applied to specific spell types, making the system inefficient and difficult to scale. To solve this, I moved to a component-based setup that gives each projectile only the data it actually needs.<br><br>For example, when a player fires a projectile with the Shadow tome, the system adds a ShadowTomeProjectileData component to that projectile as it is created. This allows the projectile to track the Shadow Artifact’s data, including its initial position and an explosion counter used for distance-based effects. By isolating data to only the projectiles that require it, the system remains modular, efficient, and scalable."
             }
@@ -45,7 +45,7 @@ const PROJECT_CONTENT = {
         },
         sections: [
             {
-                image: "/images/Marble-Game/img2.png",
+                images: ["/images/Marble-Game/img2.png"],
                 heading: "Networking",
                 body: "Designed systems to keep player positions, velocities, and collisions consistent across clients while keeping the controls feeling responsive."
             }
@@ -61,7 +61,7 @@ const PROJECT_CONTENT = {
         },
         sections: [
             {
-                image: "/images/Crazy Cash/img1.png",
+                images: ["/images/Crazy Cash/img1.png"],
                 heading: "Worldbuilding",
                 body: "Focused on how props, triggers, and systems combine to tell the story of a character scrambling to pay rent in a highly interactive environment."
             }
@@ -77,12 +77,12 @@ const PROJECT_CONTENT = {
         },
         sections: [
             {
-                image: "/images/Grave/img2.png",
+                images: ["/images/Grave/img2.png"],
                 heading: "Combat Feel",
                 body: "Iterated on attack timings, feedback, and enemy behavior so encounters feel deliberate and readable without losing tension."
             },
             {
-                image: "/images/Grave/img3.png",
+                images: ["/images/Grave/img3.png"],
                 heading: "Systems",
                 body: "Built modular gameplay logic so new enemies or interactions could be added quickly without rewriting existing behavior."
             }
@@ -98,13 +98,14 @@ const PROJECT_CONTENT = {
         },
         sections: [
             {
-                image: "/images/Maybe Mayhem/img2.png",
+                images: ["/images/Maybe Mayhem/img2.png"],
                 heading: "Ragdoll & Animation",
                 body: "Hooked up ragdoll logic with animation states so characters smoothly transition from controlled movement into ridiculous physics-driven chaos."
             }
         ]
     }
 };
+
 
 /* -------------------------------------------------------
    DOM READY
@@ -505,12 +506,44 @@ function setupProjectDetailView() {
             const text = document.createElement("div");
             text.className = "detail-row-text";
 
-            if (section.image) {
+            const textInner = document.createElement("div");
+            textInner.className = "detail-text-inner";
+            text.appendChild(textInner);
+
+            // MULTI-IMAGE SUPPORT
+            if (section.images && Array.isArray(section.images)) {
+                // APPLY VERTICAL STACK CLASS
+                media.classList.add("multi-image-column");
+
+                const firstImageWrapper = document.createElement("div");
+                firstImageWrapper.className = "first-image-row";
+
+                const firstImg = document.createElement("img");
+                firstImg.className = "project-img clickable-img";
+                firstImg.src = section.images[0];
+
+                firstImageWrapper.appendChild(firstImg);
+                media.appendChild(firstImageWrapper);
+
+                // Remaining images (stacked below)
+                section.images.slice(1).forEach(src => {
+                    const secImg = document.createElement("img");
+                    secImg.className = "project-img clickable-img";
+                    secImg.src = src;
+                    media.appendChild(secImg);
+                });
+
+            }
+
+
+            // Single image fallback
+            else if (section.image) {
                 const secImg = document.createElement("img");
                 secImg.className = "project-img clickable-img";
                 secImg.src = section.image;
                 media.appendChild(secImg);
             }
+
 
             if (section.heading) {
                 const secHead = document.createElement("h4");

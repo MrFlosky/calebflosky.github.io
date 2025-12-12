@@ -647,6 +647,16 @@ body {
     .detail-row-text {
         flex: 1 1 100%;
     }
+
+    /* Add breathing room between image(s) and text */
+    .detail-row {
+        row-gap: 4.75rem; /* adjust to taste: 1.25rem–2.25rem */
+    }
+
+    /* Optional: slightly separate stacked images from text visually */
+    .detail-row-text {
+        padding-top: 0.5rem;
+    }
 }
 
 /* Extra tiny screens */
@@ -730,4 +740,47 @@ body {
     font-weight: 400 !important;
     font-family: Calibri;
     text-decoration: none;
+}
+
+/* WRAP multi-image stacks so they can be centered vertically */
+.detail-row-media.multi-image-column {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem;
+
+    align-items: center !important;     /* center horizontally */
+    justify-content: center !important; /* center vertically */
+}
+
+/* Make images full width inside the centered column */
+.detail-row-media.multi-image-column img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1.8rem rgba(0,0,0,0.55);
+}
+
+/* Secondary rows should align from top */
+.detail-row--secondary {
+    align-items: flex-start;
+}
+
+/* First image defines vertical alignment reference */
+.first-image-row {
+    display: flex;
+    align-items: center;
+}
+
+/* Text column becomes a flex container */
+.detail-row-text {
+    display: flex;
+}
+
+/* Center heading + body relative to first image */
+.detail-text-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
