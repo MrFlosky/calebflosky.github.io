@@ -367,7 +367,9 @@ function setupProjectDetailView() {
     function closeDetail({ updateHistory }) {
         // Only push a new history entry when user actively closes
         if (updateHistory) {
-            history.pushState({}, "", "/");
+            const url = new URL(window.location.href);
+            url.searchParams.delete("project");
+            history.pushState({}, "", url.toString());
         }
 
         const OVERLAY_FADE_DURATION = 350;
@@ -543,7 +545,8 @@ function setupProjectDetailView() {
             const content = PROJECT_CONTENT[key];
 
             if (content && content.url) {
-                history.pushState({ project: key }, "", `/project/${content.url}`);
+                urlObj.searchParams.set("project", content.url);
+                history.pushState({ project: key }, "", urlObj.toString());
             }
         }
 
